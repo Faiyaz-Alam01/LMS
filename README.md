@@ -2,7 +2,7 @@
 
 # Setup instruction
 
-1.clone the project
+1. clone the project
 ...
   git clone "github code"
 ...
