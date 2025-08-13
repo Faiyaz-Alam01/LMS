@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import HomeLayouts from '../Layouts/HomeLayouts'
-
+import homepage from '../assets/imge1.jpg'
 const HomePage = () => {
   return (
 	<HomeLayouts >
@@ -28,10 +28,11 @@ const HomePage = () => {
 						</button>
 					</Link>
 				</div>
-				<div className="w-1/2 flex items-center justify-center">
-					<img src="" alt="homepage image" />
-				</div>
+				
 			</div>
+			<div className="w-1/2 flex items-center justify-center">
+					<img src={homepage} alt="homepage image" />
+				</div>
 		</div>
 	</HomeLayouts>
   )
