@@ -1,7 +1,6 @@
 import toast from "react-hot-toast"
 import axiosInstance from "../../Helpers/axiosInstance"
-
-const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const initialState = {
 	courseData: []
@@ -28,7 +27,12 @@ const courseSlice = createSlice({
 
 	},
 	extraReducers :(builder) => {
-
+		builder
+			.addCase(getAllCourses.fulfilled, (state, action) => {
+				if(action.payload) {
+					state.courseData = [...action.payload];
+				}
+			})
 	}
 
 })
