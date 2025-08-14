@@ -3,6 +3,7 @@ import './App.css'
 import { useState } from 'react'
 
 import HomePage from './Pages/HomePage'
+import AboutUs from './Pages/AboutUs'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,6 +12,7 @@ function App() {
     <>
       <Routes>
         <Route path="" element={<HomePage />}/>
+        <Route path="/about" element={< AboutUs/>}/>
       </Routes>
     </>
   )

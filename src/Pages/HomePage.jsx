@@ -31,8 +31,12 @@ const HomePage = () => {
 				
 			</div>
 			<div className="w-1/2 flex items-center justify-center">
-					<img src={homepage} alt="homepage image" />
-				</div>
+				<img 
+					className='rounded-md'
+					src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg" 
+					alt="" 
+				/>
+			</div>
 		</div>
 	</HomeLayouts>
   )

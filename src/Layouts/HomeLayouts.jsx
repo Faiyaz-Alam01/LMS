@@ -54,7 +54,7 @@ const HomeLayouts = ({children}) => {
 
 				<div className='drawer-side w-0'>
 					<label htmlFor="my-drawer" className='drawer-overlay'></label>
-					<ul className="menu bg-base-100 text-base-content  w-48 p-4 relative sm:w-80">
+					<ul className="menu bg-base-100 text-base-content h-[100vh]  w-48 p-4 relative sm:w-80">
 						<li className='w-fit absolute right-2 z-50'>
 							<button onClick={hideDrawer}>
 								<AiFillCloseCircle size={24}/>
