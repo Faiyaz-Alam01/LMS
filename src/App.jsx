@@ -11,6 +11,8 @@ import CourseList from './Pages/Course/CourseList'
 import Contact from './Pages/Contact'
 import Denied from './Pages/Denied'
 import CourseDescription from './Pages/Course/CourseDescription'
+import RequireAuth from './Components/Auth/RequireAuth'
+import CreateCourse from './Pages/Course/CreateCourse'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -27,6 +29,10 @@ function App() {
 
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<LogIn />} />
+
+        <Route element={<RequireAuth  allowedRolles={["admin"]} />} />
+          <Route path='/course/create' element={<CreateCourse />} />
+        <Route />
 
         <Route path='*' element ={<NotFound />}/>
       </Routes>
