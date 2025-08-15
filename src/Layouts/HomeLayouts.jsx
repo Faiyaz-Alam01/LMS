@@ -68,11 +68,18 @@ const HomeLayouts = ({children}) => {
 							</li>		
 						}
 
+						
+							
 						<li>
 							<Link to={'/'}>Home</Link>
 						</li>	
 						<li>
 							<Link to={'/courses'}>All Courses</Link>
+						</li>
+
+						{/* {isLoggedIn && role === 'admin' && } */}
+						<li>
+							<Link to={'/course/create'}>Create Course</Link>
 						</li>				
 						<li>
 							<Link to={'/contact'}>Contact Us</Link>
