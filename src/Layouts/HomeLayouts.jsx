@@ -13,6 +13,8 @@ const HomeLayouts = ({children}) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	const role = "admin"
+
 	//for asking user is loggedIn or Not
 	const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
 

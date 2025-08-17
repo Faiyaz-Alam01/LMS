@@ -1,8 +1,7 @@
 import toast from "react-hot-toast"
 import axiosInstance from "../../Helpers/axiosInstance"
 import { data } from "react-router-dom"
-
-const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
+import { createSlice, createAsyncThunk }  from "@reduxjs/toolkit"
 
 const initialState = {
 	key:'',
