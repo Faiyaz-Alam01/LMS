@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
 import axiosInstance from '../Helpers/axiosInstance'
+import { setUser } from '../Redux/Slices/AuthSlice'
 // import { createAccount } from '../Redux/Slices/AuthSlice'
 
 const SignUp = () => {
@@ -79,7 +80,6 @@ const SignUp = () => {
 		formData.append("password", signupData.password)
 		formData.append("avatar", signupData.avatar)
 
-		console.log(formData);
 		//dispatch create account action
 		try {
 			
@@ -97,13 +97,8 @@ const SignUp = () => {
 			if(data.success){
 				
 				dispatch(setUser(data.data.user))
-				navigate('/')
-				setSignUpData({
-					fullName:"",
-					email:"",
-					password:"",
-					avatar: ""
-				});
+				navigate('/login')
+				setSignUpData({fullName:"", email:"", password:"", avatar: ""});
 				setPreviewImage('')
 			}
 
