@@ -4,7 +4,8 @@ import { BsPersonCircle } from 'react-icons/bs'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
-import { createAccount } from '../Redux/Slices/AuthSlice'
+import axiosInstance from '../Helpers/axiosInstance'
+// import { createAccount } from '../Redux/Slices/AuthSlice'
 
 const SignUp = () => {
 
@@ -62,15 +63,15 @@ const SignUp = () => {
 			return
 		}
 		//checking email
-		// if(signupData.email.match()) {
-		// 	toast.error("Invalid Email id")
-		// 	return
-		// }
+		if(!signupData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+			toast.error("Invalid Email id")
+			return
+		}
 		// //checking password
-		// if(!signupData.password.match("")) {
-		// 	toast.error("Password should be 6-16 character long with atleast a number and special character")
-		// 	return
-		// }
+		if(!signupData.password.match(/^[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
+			toast.error("Password should be 6-16 character long with atleast a number and special character")
+			return
+		}
 
 		const formData = new FormData();
 		formData.append("fullName", signupData.fullName)
@@ -78,21 +79,37 @@ const SignUp = () => {
 		formData.append("password", signupData.password)
 		formData.append("avatar", signupData.avatar)
 
+		console.log(formData);
 		//dispatch create account action
-		const response = await dispatch(createAccount(formData))
+		try {
+			
+			const res = await toast.promise( axiosInstance.post("/user/register",formData),
+				{
+					loading: "Wait! creating your account",
+					success: (res) => res.data?.message || "register successful",
+					error: "creating failed",
+				}
+			)
+			
+			const data = res.data;		
+			console.log(data);
+			
+			if(data.success){
+				
+				dispatch(setUser(data.data.user))
+				navigate('/')
+				setSignUpData({
+					fullName:"",
+					email:"",
+					password:"",
+					avatar: ""
+				});
+				setPreviewImage('')
+			}
 
-		if(response?.payload?.success)  
-			navigate('/')
-	
-
-		setSignUpData({
-			fullName:"",
-			email:"",
-			password:"",
-			avatar: ""
-		});
-		setPreviewImage('')
-
+		} catch (error) {
+  			toast.error(error.response?.data?.message || error.message || "Something went wrong");
+		}
 
 	}
 

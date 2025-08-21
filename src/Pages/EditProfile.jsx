@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserData, updateProfile } from '../Redux/Slices/AuthSlice';
+// import { getUserData, updateProfile } from '../Redux/Slices/AuthSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import HomeLayouts from '../Layouts/HomeLayouts';
 import { AiFillAlipayCircle, AiOutlineArrowLeft } from 'react-icons/ai';

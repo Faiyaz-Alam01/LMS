@@ -15,7 +15,6 @@ import RequireAuth from './Components/Auth/RequireAuth'
 import CreateCourse from './Pages/Course/CreateCourse'
 import Profile from './Pages/User/Profile'
 import EditProfile from './Pages/EditProfile'
-import Checkout from './Pages/Payment/Checkout'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -23,7 +22,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="" element={<HomePage />}/>
+        <Route path="/" element={<HomePage />}/>
         <Route path="/about" element={< AboutUs/>}/>
         <Route path="/courses" element={<CourseList/>}/>
         <Route path="/contact" element={<Contact />}/>
@@ -40,7 +39,7 @@ function App() {
         {/* <Route element={<RequireAuth  allowedRolles={["admin", "USER"]} />} /> */}
           <Route path='/user/profile' element={<Profile />} />
           <Route path='/user/edit' element={<EditProfile />} />
-          <Route path='/checkout' element={<Checkout />} />
+          {/* <Route path='/checkout' element={<Checkout />} /> */}
         {/* <Route /> */}
 
         <Route path='*' element ={<NotFound />}/>

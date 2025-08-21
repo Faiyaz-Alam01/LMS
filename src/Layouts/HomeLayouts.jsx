@@ -4,7 +4,10 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../Redux/Slices/AuthSlice';
+import axiosInstance from '../Helpers/axiosInstance';
+import { removeUser } from '../Redux/Slices/AuthSlice';
+import toast from 'react-hot-toast';
+// import { logout } from '../Redux/Slices/AuthSlice';
 
 
 
@@ -13,10 +16,9 @@ const HomeLayouts = ({children}) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const role = "admin"
+	 const {isLoggedIn, user} = useSelector((state) => state.auth)
+	 console.log(isLoggedIn, user)
 
-	//for asking user is loggedIn or Not
-	const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
 
 	//for displaying the options acc to role
 	const admin = useSelector((state)=> state?.auth?.role)
@@ -35,11 +37,20 @@ const HomeLayouts = ({children}) => {
 	}
 
 	async function handleLogout (e) {
-		e.prevendefault();
+		e.preventDefault();
 
-		const res = await dispatch(logout())
-		if(res?.payload?.success)
-		navigate('/')
+		try {
+			const response = await axiosInstance.post('/user/logout')
+			const data = response.data;
+			if(data.success){
+				dispatch(removeUser());
+				navigate("/")
+				toast.success("Logout successfully")
+			}
+
+		} catch (error) {
+			toast.error(error?.response?.data?.message || "error in handle logout")
+		}
 	}
 	return (
 		<div className='min-h-[90vh]'>
@@ -64,11 +75,11 @@ const HomeLayouts = ({children}) => {
 							</button>
 						</li>	
 
-						{isLoggedIn && role === 'admin' && 
-							<li>
+						{/* {isLoggedIn && role === 'admin' &&  */}
+							{/* <li>
 								<Link to={'/admin/dashboard'}>Admin DashBoard</Link>
-							</li>		
-						}
+							</li>		 */}
+						{/* } */}
 
 						
 							
@@ -109,8 +120,8 @@ const HomeLayouts = ({children}) => {
 									<button className=' z-10 px-4 py-1 font-semibold rounded-md w-full'>
 										<Link to={'/user/profile'}>Profile</Link>
 									</button>
-									<button onClick={handleLogout} className='btn-secondary px-4 py-1 font-semibold rounded-md w-full'>
-										<Link to={'/user/logout'}>Logout</Link>
+									<button onClick={handleLogout} className='bg-red-500 text-white hover:bg-red-600  px-4 py-1 font-semibold rounded-md w-full'>
+										<Link>Logout</Link>
 									</button>
 								</div>
 							</li>
