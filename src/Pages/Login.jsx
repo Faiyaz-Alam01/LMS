@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import HomeLayouts from '../Layouts/HomeLayouts'
-import { BsPersonCircle } from 'react-icons/bs'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
-import { login } from '../Redux/Slices/AuthSlice'
+import { setUser } from '../Redux/Slices/AuthSlice'
+import axiosInstance from '../Helpers/axiosInstance'
 
 const LogIn = () => {
 
 	const dispatch = useDispatch()
 	const navigate = useNavigate()  
+
 
 	const [loginData, setloginData] = useState({
 		email:"",
@@ -33,28 +34,41 @@ const LogIn = () => {
 		}
 
 		//checking email
-		// if(loginData.email.match()) {
-		// 	toast.error("Invalid Email id")
-		// 	return
-		// }
+		if(!loginData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+			toast.error("Invalid Email id")
+			return
+		}
 		//checking password
-		if(!loginData.password.match("")) {
+		if(!loginData.password.match(/^[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
 			toast.error("Password should be 6-16 character long with atleast a number and special character")
 			return
 		}
 
 
-		//dispatch create account action
-		const response = await dispatch(login(loginData))
+		try {
+			const res = await toast.promise( axiosInstance.post("/user/login",loginData),
+				{
+					loading: "Wait! loaging your account",
+					success: (res) => res.data?.message || "Login successful",
+					error: "Login failed",
+				}
+			)
+			
+			const data = res.data;		
+			console.log(data);
+			
+			if(data.success){
+				
+				dispatch(setUser(data.data.user))
+				navigate('/')
+				setloginData({email:"",password:"",});
+			}
 
-		if(response?.payload?.success)  
-			navigate('/')
-	
 
-		setloginData({
-			email:"",
-			password:"",
-		});
+		} catch (error) {
+  			toast.error(error.response?.data?.message || error.message || "Something went wrong");
+		}
+
 	
 
 	}
