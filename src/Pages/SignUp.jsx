@@ -5,13 +5,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
 import axiosInstance from '../Helpers/axiosInstance'
-import { setUser } from '../Redux/Slices/AuthSlice'
 // import { createAccount } from '../Redux/Slices/AuthSlice'
 
 const SignUp = () => {
 
 	const [previewImage, setPreviewImage] = useState("")
-	const dispatch = useDispatch()
 	const navigate = useNavigate()  
 
 	const [signupData, setSignUpData] = useState({
@@ -94,9 +92,7 @@ const SignUp = () => {
 			const data = res.data;		
 			console.log(data);
 			
-			if(data.success){
-				
-				dispatch(setUser(data.data.user))
+			if(data.success){		
 				navigate('/login')
 				setSignUpData({fullName:"", email:"", password:"", avatar: ""});
 				setPreviewImage('')
