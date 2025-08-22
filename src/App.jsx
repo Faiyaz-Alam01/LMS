@@ -15,6 +15,7 @@ import RequireAuth from './Components/Auth/RequireAuth'
 import CreateCourse from './Pages/Course/CreateCourse'
 import Profile from './Pages/User/Profile'
 import EditProfile from './Pages/EditProfile'
+import ChangePassword from './Pages/ChangePassword'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -39,6 +40,7 @@ function App() {
         {/* <Route element={<RequireAuth  allowedRolles={["admin", "USER"]} />} /> */}
           <Route path='/user/profile' element={<Profile />} />
           <Route path='/user/edit' element={<EditProfile />} />
+          <Route path='/user/changepassword' element={<ChangePassword />} />
           {/* <Route path='/checkout' element={<Checkout />} /> */}
         {/* <Route /> */}
 
