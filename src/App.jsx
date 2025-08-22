@@ -33,9 +33,9 @@ function App() {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<LogIn />} />
 
-        <Route element={<RequireAuth  allowedRolles={["admin"]} />} />
+        {/* <Route element={<RequireAuth  allowedRolles={["admin"]} />} /> */}
           <Route path='/course/create' element={<CreateCourse />} />
-        <Route />
+        {/* <Route /> */}
 
         {/* <Route element={<RequireAuth  allowedRolles={["admin", "USER"]} />} /> */}
           <Route path='/user/profile' element={<Profile />} />
