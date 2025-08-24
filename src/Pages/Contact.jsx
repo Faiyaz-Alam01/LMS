@@ -26,7 +26,7 @@ const Contact = () => {
 			toast.error("All fields are required")
 		}
 
-		//checking email
+		// checking email
 		// if(userInput.email.match()) {
 		// 	toast.error("Invalid Email id")
 		// 	return
@@ -38,16 +38,15 @@ const Contact = () => {
 		}
 
 		try {
-			const response = axiosInstance.post('/contact', userInput)
-			toast.promise(response, {
-				loading: "Submitting your message",
-				success: "Form submitted successfully",
-				error:"Failed to submit the form",
-			})
-			const contactResponse = await response;
-			console.log(contactResponse);
-			
-			if(contactResponse?.data?.success){
+			const response =await axiosInstance.post('/contact', userInput)
+			// toast.promise(response, {
+			// 	loading: "Submitting your message",
+			// 	success: "Form submitted successfully",
+			// 	error:"Failed to submit the form",
+			// })
+			const data = response.data;
+						
+			if(data?.success){
 				setUserInput({
 					name:'',
 					email:"",
@@ -65,7 +64,7 @@ const Contact = () => {
 				<form 
 					noValidate //remove html validation
 					onSubmit={OnFormSubmit}
-					className='flex flex-col space-y-2 items-center justify-center gap-2 p-5 rounded-md text-white shadow-[0_0_10px_black] w-[22rem]'>
+					className='flex flex-col space-y-2 items-center justify-center gap-2 p-5 rounded-md text-white shadow-[0_0_10px_black] w-md'>
 					<h1 className='text-3xl font-semibold'>
 						Contact Form
 					</h1>
