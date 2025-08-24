@@ -1,37 +1,39 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const CourseCard = ({data}) => {
+const CourseCard = ({props}) => {
 	const navigate = useNavigate();
+	console.log(props);
+	
 
 	return (
 		<div 
-			onClick={() => navigate('/course/description', {state: data})}
-			className='text-white w-[22rem] h-[430px] shadow-lg rounded-lg cursor-pointer group overflow-hidden'>
+			onClick={() => navigate('/course/description')}
+			className='text-white shadow-lg rounded-lg cursor-pointer group overflow-hidden'>
 			<div className='overflow-hidden'>
 				<img 
 					className='h-48 w-full rounded-tl rounded-tr-lg group-hover:scale=[1,2] transition-all ease-in-out duration-300 '
-					src={data?.thumbnail?.secure_url} 
+					src={props.avatar} 
 					alt='course thumbnail'
 				/>
 				<div className='p-3 space-y-1 text-white  '>
 					<h2 className='text-yellow-300 line-clamp-2 text-xl font-bold '>
-						{data?.title}
+						{props.title}
 					</h2>
 					<p className='line-clamp-2'>
-						{data?.description}
+						{props.description}
 					</p>
 					<p className='font-semibold'>
 						<span className='text-yello-500 font-bold'>Category : </span>
-						{data?.category}
+						{props.category}
 					</p>
 					<p className='font-semibold'>
 						<span className='text-yello-500 font-bold'>Total lectures : </span>
-						{data?.numberoflectures}
+						{props?.numberoflectures}
 					</p>
 					<p className='font-semibold'>
 						<span className='text-yello-500 font-bold'>Instructor : </span>
-						{data?.createdBy}
+						{props?.createdBy}
 					</p>
 				</div>
 			</div>
