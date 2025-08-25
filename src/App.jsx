@@ -16,7 +16,8 @@ import CreateCourse from './Pages/Course/CreateCourse'
 import Profile from './Pages/User/Profile'
 import EditProfile from './Pages/EditProfile'
 import ChangePassword from './Pages/ChangePassword'
-import ForgotPassword from './Pages/forgotPassword'
+import ForgotPassword from './Pages/ForgotPassword.jsx' 
+import ResetPassword from './Pages/ResetPassword.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -31,6 +32,7 @@ function App() {
         <Route path="/denied" element={<Denied />}/>
         <Route path="/course/description" element={<CourseDescription />}/>
         <Route path="/forgot-password" element={<ForgotPassword />}/>
+        <Route path="/reset-password/:token" element={<ResetPassword />}/>
 
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<LogIn />} />
