@@ -17,7 +17,7 @@ const HomeLayouts = ({children}) => {
 	const navigate = useNavigate();
 
 	 const {isLoggedIn, user} = useSelector((state) => state.auth)
-	 console.log(isLoggedIn, user)
+	//  console.log(isLoggedIn, user)
 
 
 	//for displaying the options acc to role

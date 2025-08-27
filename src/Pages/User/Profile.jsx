@@ -9,7 +9,6 @@ import axiosInstance from '../../Helpers/axiosInstance';
 const Profile = () => {
 
   	const [users, setUsers] = useState([]);
-	console.log(users);
 	const userData = users?.data
 
 	useEffect(()=>{

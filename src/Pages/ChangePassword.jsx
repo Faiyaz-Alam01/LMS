@@ -58,7 +58,6 @@ const ChangePassword = () => {
 			const res =await axiosInstance.post("/user/change-password", ChangePasswordData)
 			
 			const data = res.data;	
-			console.log(data);
 				
 			if(data.success){
 				navigate('/')

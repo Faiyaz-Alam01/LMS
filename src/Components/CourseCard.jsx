@@ -1,19 +1,22 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 
 const CourseCard = ({props}) => {
-	const navigate = useNavigate();
 	console.log(props);
 	
+	const navigate = useNavigate();	
+	// const {course} = useSelector(state => state.course)
 
 	return (
 		<div 
-			onClick={() => navigate('/course/description')}
+		// { state: course }
+			onClick={() => navigate('/course/description', {state: props})}
 			className='text-white shadow-lg rounded-lg cursor-pointer group overflow-hidden'>
 			<div className='overflow-hidden'>
 				<img 
 					className='h-48 w-full rounded-tl rounded-tr-lg group-hover:scale=[1,2] transition-all ease-in-out duration-300 '
-					src={props.avatar} 
+					src={props?.avatar} 
 					alt='course thumbnail'
 				/>
 				<div className='p-3 space-y-1 text-white  '>

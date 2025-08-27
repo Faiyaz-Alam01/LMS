@@ -2,7 +2,7 @@ import React from 'react'
 import {  useNavigate } from 'react-router-dom'
 
 const Denied = () => {
-	const Navigate = useNavigate()
+	const navigate = useNavigate();
 	return (
 		<main className='h-screen w-full flex flex-col justify-center items-center bg-[#1A2238]'>
 			<h1 className='text-9xl font-extrabold text-white tracking-widest'>
@@ -11,7 +11,7 @@ const Denied = () => {
 			<div className='bg-black text-white px-2 rounded rotate-12 absolute '>
 				Access denied
 			</div>
-			<button onClick={() => Navigate(-1)} className='mt-5'>
+			<button onClick={() => navigate(-1) || navigate('/')} className='mt-5'>
 				<span className= 'relative block hover:bg-blue-950 px-8 py-3 border border-current'>
 					Go Back
 				</span>

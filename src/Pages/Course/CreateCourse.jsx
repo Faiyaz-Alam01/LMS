@@ -11,6 +11,7 @@ const CreateCourse = () => {
 
 	// const dispatch = useDispatch()
 	const navigate = useNavigate()
+	const dispatch = useDispatch();
 
 	const [userInput, setUserInput] = useState({
 		title: "",
@@ -71,6 +72,7 @@ const CreateCourse = () => {
 			}
 			toast.success("Course created successfull")
 				navigate('/courses')
+				dispatch()
 				setUserInput({
 				title: "",
 				category: "",

@@ -6,7 +6,6 @@ const Footer = () => {
 
 	const currentDate = new Date()
 	const year = currentDate.getFullYear();
-	console.log(year);
 	
 
 	return (

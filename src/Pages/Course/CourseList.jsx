@@ -9,30 +9,29 @@ import toast from 'react-hot-toast';
 const CourseList = () => {
 
 	const dispatch = useDispatch();
-	const[course, setCourse] = useState([])
 	
-	// async function loadCourses(){
-	// 	await dispatch(getAllCourses())
+	const {courseData} = useSelector((state) => state.course)
+	console.log(courseData);
+	
+
+	// async function loadCourses (){
+	// 	try {
+	// 		const res = await axiosInstance.get('/course/getAllCourses')
+	// 		const data = res.data
+	// 		if(!data.success){
+	// 			toast.error("Failed to get the courses")
+	// 			return
+	// 		}
+	// 		setCourse(data);
+
+	// 	} catch (error) {
+	// 		toast.error(error?.response?.data?.message)
+	// 	}
 	// }
 
-	async function loadCourses (){
-		try {
-			const res = await axiosInstance.get('/course/getAllCourses')
-			const data = res.data
-			if(!data.success){
-				toast.error("Failed to get the courses")
-				return
-			}
-			setCourse(data);
-
-		} catch (error) {
-			toast.error(error?.response?.data?.message)
-		}
-	}
-
 	useEffect(()=> {
-		loadCourses();
-	},[])
+		dispatch(getAllCourses())
+	},[dispatch])
 
 	return (
 		<HomeLayouts>
@@ -44,9 +43,9 @@ const CourseList = () => {
 					</span>
 				</h1>
 
-				{course && course?.data?.length > 0 ? (
+				{courseData && courseData?.length > 0 ? (
 					<div className='mt-20 mb-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 p-10'>
-					{course.data.map((course, index) => (
+					{courseData.map((course, index) => (
 						<CourseCard key={index} props={course} />
 					))}
 					</div>

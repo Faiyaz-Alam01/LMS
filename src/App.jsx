@@ -18,6 +18,7 @@ import EditProfile from './Pages/EditProfile'
 import ChangePassword from './Pages/ChangePassword'
 import ForgotPassword from './Pages/ForgotPassword.jsx' 
 import ResetPassword from './Pages/ResetPassword.jsx'
+import Displaylectures from './Pages/Dashboard/Displaylectures.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -37,16 +38,17 @@ function App() {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<LogIn />} />
 
-        {/* <Route element={<RequireAuth  allowedRolles={["admin"]} />} /> */}
-          <Route path='/course/create' element={<CreateCourse />} />
-        {/* <Route /> */}
+        <Route element={<RequireAuth  allowRoles={["admin"]} />} >
+          <Route path="/course/create" element={<CreateCourse />}/>
+        </Route>
 
-        {/* <Route element={<RequireAuth  allowedRolles={["admin", "USER"]} />} /> */}
+        <Route element={<RequireAuth  allowRoles={["admin", "USER"]} />}>
           <Route path='/user/profile' element={<Profile />} />
           <Route path='/user/edit' element={<EditProfile />} />
           <Route path='/user/changepassword' element={<ChangePassword />} />
+          <Route path='/course/displaylecture' element={<Displaylectures />} />
           {/* <Route path='/checkout' element={<Checkout />} /> */}
-        {/* <Route /> */}
+        </ Route>
 
         <Route path='*' element ={<NotFound />}/>
       </Routes>

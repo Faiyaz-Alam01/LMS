@@ -27,10 +27,10 @@ const Contact = () => {
 		}
 
 		// checking email
-		// if(userInput.email.match()) {
-		// 	toast.error("Invalid Email id")
-		// 	return
-		// }
+		if(userInput.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+			toast.error("Invalid Email id")
+			return
+		}
 
 		if(userInput.message.length < 5) {
 			toast.error("message should be atleast of 5 character")
@@ -38,15 +38,11 @@ const Contact = () => {
 		}
 
 		try {
-			const response =await axiosInstance.post('/contact', userInput)
-			// toast.promise(response, {
-			// 	loading: "Submitting your message",
-			// 	success: "Form submitted successfully",
-			// 	error:"Failed to submit the form",
-			// })
+			const response =await axiosInstance.post('/contact/user', userInput)
 			const data = response.data;
 						
-			if(data?.success){
+			if(data.success){
+				toast.success("Message sent successfully!")
 				setUserInput({
 					name:'',
 					email:"",
