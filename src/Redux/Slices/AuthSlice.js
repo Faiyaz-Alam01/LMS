@@ -7,8 +7,7 @@ const initialState = {
 	// role: localStorage.getItem('admin') || "",
 	// data: {}
 	isLoggedIn: false,
-	role: "",
-	user:null
+	user:{}
 
 };
 
@@ -87,11 +86,11 @@ const authSlice = createSlice ({
 			const payload = action.payload
 			state.isLoggedIn= true
 			state.user = payload
-			state.role = 'user'
 		},
 		removeUser : (state) => {
 			state.isLoggedIn= false
 			state.user = null
+
 		}
   	},
 	// extraReducers: (builder) => {

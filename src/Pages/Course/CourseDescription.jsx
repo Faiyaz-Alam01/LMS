@@ -7,8 +7,11 @@ const CourseDescription = () => {
 
 	const navigate = useNavigate();
 	const { state } = useLocation()
-	const {role, data} = useSelector((state) => state.auth)
+	const {user} = useSelector((state) => state.auth )
+	console.log(user);
 	
+	const role = user?.role
+		
 
 	useEffect(()=>{
 		console.log(state);
@@ -36,19 +39,19 @@ const CourseDescription = () => {
 								<span className='text-yellow-500 font-bold'>
 									Instructor : 
 								</span>
-								{state?.instructor}faiyaz
+								{state?.instructor}
 							</p>
 						</div>
-						{/* {role === 'admin' || data.subscription?.status === 'ACTIVE' ? ( */}
+						{role === 'ADMIN' || user?.subscription?.status === 'ACTIVE' ? (
 								<button onClick={() => navigate('/course/displaylecture', {state: {...state}})} className='bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300'>
 									Watch lectures
 								</button>
-							{/* ) : ( */}
-								{/* <button onClick={() => navigate('/checkout')} className='bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300'>
+							) : (
+								<button onClick={() => navigate('/checkout')} className='bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300'>
 									Subscribe 
-								</button>  */}
-							{/* ) */}
-						{/* } */}
+								</button> 
+							) 
+						}
 					</div>
 
 					<div className='space-y-2 text-xl '>

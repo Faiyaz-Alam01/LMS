@@ -17,11 +17,9 @@ const HomeLayouts = ({children}) => {
 	const navigate = useNavigate();
 
 	 const {isLoggedIn, user} = useSelector((state) => state.auth)
-	//  console.log(isLoggedIn, user)
-
-
-	//for displaying the options acc to role
-	const admin = useSelector((state)=> state?.auth?.role)
+	 
+	 const role = user?.role
+	 
 
 	function changeWidth (){
 		const drawerSide = document.getElementsByClassName("drawer-side")
@@ -73,27 +71,28 @@ const HomeLayouts = ({children}) => {
 							<button onClick={hideDrawer}>
 								<AiFillCloseCircle size={24}/>
 							</button>
-						</li>	
-
-						{/* {isLoggedIn && role === 'admin' &&  */}
-							{/* <li>
-								<Link to={'/admin/dashboard'}>Admin DashBoard</Link>
-							</li>		 */}
-						{/* } */}
-
-						
+						</li>		
 							
 						<li>
 							<Link to={'/'}>Home</Link>
-						</li>	
+						</li>
+
+						{isLoggedIn && role === 'ADMIN' && 
+							<li>
+								<Link to={'/admin/dashboard'}>Admin DashBoard</Link>
+							</li>
+						}	
+
 						<li>
 							<Link to={'/courses'}>All Courses</Link>
 						</li>
 
-						{/* {isLoggedIn && role === 'admin' && } */}
-						<li>
-							<Link to={'/course/create'}>Create Course</Link>
-						</li>				
+						{isLoggedIn && role === 'ADMIN' && 
+							<li>
+								<Link to={'/course/create'}>Create Course</Link>
+							</li>					
+						}
+
 						<li>
 							<Link to={'/contact'}>Contact Us</Link>
 						</li>

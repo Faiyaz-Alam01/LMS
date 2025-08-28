@@ -17,6 +17,7 @@
     "chart.js": "^4.5.0",
     "daisyui": "^5.0.50",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "razorpay": "^2.9.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hot-toast": "^2.5.2",

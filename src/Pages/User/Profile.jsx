@@ -60,12 +60,12 @@ const Profile = () => {
 							<button>Edit Profile</button>
 						</Link>
 					</div>
-					{/* {/* .status === "active" && * change during backend setup/} */}
-					{/* {userdata?.subscription?.status !== "active" && ( */}
+					 {/* .status === "active" &&  //change during backend setup */}
+					 { userData?.subscription?.status !== "active" && ( 
 						<button className='py-1 font-medium w-full bg-red-600 hover:bg-red-500 transition-all ease-in-out duration-200'>
 							Cancle Subscription
 						</button>
-					{/* )} */}
+					)}
 				</div>
 			</div>
 		</HomeLayouts>
