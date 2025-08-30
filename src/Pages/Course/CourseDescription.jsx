@@ -8,13 +8,12 @@ const CourseDescription = () => {
 	const navigate = useNavigate();
 	const { state } = useLocation()
 	const {user} = useSelector((state) => state.auth )
-	console.log(user);
 	
 	const role = user?.role
 		
 
 	useEffect(()=>{
-		console.log(state);
+		// console.log(state);
 	},[])
 	
 

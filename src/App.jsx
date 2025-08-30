@@ -20,6 +20,8 @@ import ForgotPassword from './Pages/ForgotPassword.jsx'
 import ResetPassword from './Pages/ResetPassword.jsx'
 import Displaylectures from './Pages/Dashboard/Displaylectures.jsx'
 import Checkout from './Pages/Payment/Checkout.jsx'
+import CheckoutSuccess from './Pages/Payment/CheckoutSuccess.jsx'
+import CheckoutFail from './Pages/Payment/CheckoutFail.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -49,6 +51,8 @@ function App() {
           <Route path='/user/changepassword' element={<ChangePassword />} />
           <Route path='/course/displaylecture' element={<Displaylectures />} />
           <Route path='/checkout' element={<Checkout />} />
+          <Route path='/checkout/success' element={<CheckoutSuccess />} />
+          <Route path='/checkout/fail' element={<CheckoutFail />} />
         </ Route>
 
         <Route path='*' element ={<NotFound />}/>

@@ -46,8 +46,10 @@ const Checkout = () => {
 
 				toast.success("Payment successfull")
 
-				await dispatch(verifyUserPayment(paymentdetails));
-				isPaymentVerified ? navigate("/checkout/success") : navigate("/checkout/fail")
+				const res = await dispatch(verifyUserPayment(paymentdetails));
+				console.log(res);
+				
+				(res?.payload?.success) ? navigate("/checkout/success") : navigate("/checkout/fail")
 			}
 		}
 		const paymentObject = new window.Razorpay(options)
@@ -56,7 +58,8 @@ const Checkout = () => {
 
 	async function load() {
 		await dispatch(getRazorPayId())
-		await dispatch(purchageCourseBundle())
+		await dispatch(purchageCourseBundle());
+
 	}
 
 	useEffect(() => {

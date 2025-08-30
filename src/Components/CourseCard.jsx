@@ -2,9 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 
-const CourseCard = ({props}) => {
-	console.log(props);
-	
+const CourseCard = ({props}) => {	
 	const navigate = useNavigate();	
 	// const {course} = useSelector(state => state.course)
 
