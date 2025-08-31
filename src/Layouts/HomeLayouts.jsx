@@ -16,7 +16,7 @@ const HomeLayouts = ({children}) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	 const {isLoggedIn, user} = useSelector((state) => state.auth)
+	 const {isLoggedIn, user} = useSelector((state) => state?.auth || {})
 	 
 	 const role = user?.role
 	 
