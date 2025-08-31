@@ -14,7 +14,7 @@ const CheckoutFail = () => {
 					<div className='px-4 flex flex-col items-center justify-center space-y-2'>
 						<div className='text-lg space-y-2 text-center'>
 							<h2>Oops ! Your payment failed</h2>
-							<p className='text-left'>
+							<p className=''>
 								please try again later
 							</p>
 						</div>
