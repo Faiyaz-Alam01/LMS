@@ -2,31 +2,43 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import HomeLayouts from '../../Layouts/HomeLayouts';
 import { FaRegUserCircle } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../Helpers/axiosInstance';
+import { canclecourseBundle } from '../../Redux/Slices/RazorpaySlice';
+import toast from 'react-hot-toast';
 
 
 const Profile = () => {
 
+	const dispatch = useDispatch();
+	const navigae = useNavigate();
+
   	const [users, setUsers] = useState([]);
 	const userData = users?.data
 
-	useEffect(()=>{
-		const fetchUsers = async () => {
-			try {
-				const res = await axiosInstance.get('/user/get-user')
-				const data = res.data;
-				if(data.success){
-					setUsers(data);
-				}
-
-			} catch (error) {
-				console.error("Error fetching users:", error);
+	const fetchUsers = async () => {
+		try {
+			const res = await axiosInstance.get('/user/get-user')
+			const data = res.data;
+			if(data.success){
+				setUsers(data);
 			}
+
+		} catch (error) {
+			console.error("Error fetching users:", error);
 		}
+	}
+	useEffect(()=>{
 		fetchUsers();
 	},[])
 
+	async function handleCancellation(){
+		toast('initiating cancellation ')
+		await dispatch(canclecourseBundle())
+		fetchUsers();
+		toast.success("Cancellation completed")
+		navigae('/')
+	}
 	return (
 		<HomeLayouts>
 			<div className='min-h-[90vh] flex items-center justify-center'>
@@ -62,7 +74,7 @@ const Profile = () => {
 					</div>
 					
 					{ userData?.subscription?.status === "active" && ( 
-						<button className='py-1 font-medium w-full bg-red-600 hover:bg-red-500 transition-all ease-in-out duration-200'>
+						<button onClick={handleCancellation} className='py-1 mb-4 font-medium w-full bg-red-600 hover:bg-red-500 transition-all ease-in-out duration-200'>
 							Cancle Subscription
 						</button>
 					)}
