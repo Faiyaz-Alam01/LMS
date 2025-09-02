@@ -6,12 +6,15 @@ import lectureSliceReducer from './Slices/LectureSlice'
 import sessionStorage from "redux-persist/es/storage/session";
 import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
+import statSliceReducer from './Slices/statSlice'
 
 const rootReducer = combineReducers({
     auth : authSliceReducer,
     course: courseSliceReducer,
     razorpay : razorpaySliceReducer,
-    lecture: lectureSliceReducer
+    lecture: lectureSliceReducer,
+    stat: statSliceReducer
+
 })
 
 const persistConfig = {
