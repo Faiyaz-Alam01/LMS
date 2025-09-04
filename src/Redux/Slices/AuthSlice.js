@@ -1,126 +1,134 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
+import axiosInstance from '../../Helpers/axiosInstance';
 
 const initialState = {
-	// isLoggedIn : localStorage.getItem('isLoggedIn') || false,
-	// role: localStorage.getItem('admin') || "",
-	// data: {}
-	isLoggedIn: false,
-	user:{}
-
+	isLoggedIn : false,
+	data: {}
 };
 
 
 
-// export const createAccount = createAsyncThunk("/auth/signup", async(data) => {
-	
-// })
+export const createAccount = createAsyncThunk("/auth/signup", async(data) => {
+	try {
+		const res = axiosInstance.post("user/register",data);
 
-// export const login = createAsyncThunk("/auth/login", async(data) => {
-// 	try {
-// 		const res = axiosInstance.post("user/login",data);
+		toast.promise(res, {
+			loading: "Please wait! Registration in process...",
+			success: (data) => {
+				return data?.data?.message || "User created successfully";
+			},
+			error: "Failed to create account"
+		});
+		return (await res).data;
+	} catch (error) {
+		toast.error(error?.response?.data?.message || "Registration failed")
+	}
+})
 
-// 		toast.promise(res, {
-// 			loading: "Wait! authentication in process...",
-// 			success: (data) => {
-// 				return data?.data?.message;
-// 			},
-// 			error: "failed to login"
-// 		});
-// 		return (await res).data;
-// 	} catch (error) {
-// 		toast.error(error?.response?.data?.message)
-// 	}
-// })
+export const login = createAsyncThunk("/auth/login", async(data) => {
+	try {
+		const res = axiosInstance.post("user/login",data);
+		console.log(res);
+		
+		toast.promise(res, {
+			loading: "Wait! authentication in process...",
+			success: (res) => {
+				return res?.data?.message;
+			},
+			error: "failed to login"
+		});
+		return (await res).data;
+	} catch (error) {
+		toast.error(error?.response?.data?.message || error.message);
+	}
+})
 
-// export const logout = createAsyncThunk("/auth/logout", async() => {
-// 	try {
-// 		const res = axiosInstance.post("user/logout");
+export const logout = createAsyncThunk("/auth/logout", async() => {
+	try {
+		// keep promise for toast
+		const res = axiosInstance.post("user/logout");		
 
-// 		toast.promise(res, {
-// 			loading: "Wait! logout in process...",
-// 			success: (data) => {
-// 				return data?.data?.message;
-// 			},
-// 			error: "failed to logout"
-// 		});
-// 		return (await res).data;
-// 	} catch (error) {
-// 		toast.error(error?.response?.data?.message)
-// 	}
-// })
+		// show toast while promise resolves
+		toast.promise(res, {
+			loading: "Wait! logout in process...",
+			success: (data) => {
+				return data?.data?.message;
+			},
+			error: "failed to logout"
+		});
+		return (await res).data;
+	} catch (error) {
+		console.log(error);
+		toast.error(error?.response?.data?.message || "Logout failed")
+	}
+})
 
-// export const updateProfile = createAsyncThunk("/user/update/profile", async(data) => {
-// 	try {
-// 		const res = axiosInstance.put(`user/update/${data[0]}`, data[1]);
+export const updateProfile = createAsyncThunk("/user/update/profile", async({userId, formData}) => {
+	try {
+		const res = axiosInstance.post(`user/update-profile/${userId}`, formData);
 
-// 		toast.promise(res, {
-// 			loading: "Wait! Profile update in process...",
-// 			success: (data) => {
-// 				return data?.data?.message;
-// 			},
-// 			error: "failed to update profile"
-// 		});
-// 		return (await res).data;
-// 	} catch (error) {
-// 		toast.error(error?.response?.data?.message)
-// 	}
-// })
+		toast.promise(res, {
+			loading: "Wait! Profile update in process...",
+			success: (data) => {
+				return data?.data?.message || "Profile updated successfully";
+			},
+			error: "failed to update profile"
+		});
+		return (await res).data;
+	} catch (error) {
+		toast.error(error?.response?.data?.message)
+	}
+})
 
-// export const getUserData = createAsyncThunk("/user/details", async() => {
-// 	try {
-// 		const res = axiosInstance.get(`user/me`);
-// 		return (await res).data;
-// 	} catch (error) {
-// 		toast.error(error?.message)
-// 	}
-// })
+export const getUserData = createAsyncThunk("/user/details", async() => {
+	try {
+		const res = axiosInstance.get(`user/get-user`);
+		return (await res).data;
+	} catch (error) {
+		toast.error(error?.message)
+	}
+})
 
+export const userChangePassword = createAsyncThunk('/user/changePassword', async() => {
+	try {
+		const res = axiosInstance.post("/user/change-password", ChangePasswordData)
+		
+		toast.promise(res, {
+			loading: "Wait! authentication in process...",
+			success: (data) => {
+				return data?.data?.message;
+			},
+			error: "failed to login"
+		});
+		return (await res).data;
+		} catch (error) {
+			const errMsg = error.response?.data?.message || "Something went wrong"
+  			toast.error(errMsg)
+		}
+
+})
 
 const authSlice = createSlice ({
 	name:"auth",
 	initialState,
-	reducers:{
-		setUser: (state, action)=> {
-			const payload = action.payload
-			state.isLoggedIn= true
-			state.user = payload
-		},
-		removeUser : (state) => {
-			state.isLoggedIn= false
-			state.user = null
-
-		}
-  	},
-	// extraReducers: (builder) => {
-	// 	builder
-	// 	.addCase(login.fulfilled, (state, action) => {
-	// 		localStorage.setItem("data", JSON.stringify(action?.payload?.user))
-	// 		localStorage.setItem('isLoggedIn', true)
-	// 		localStorage.setItem('role', action?.payload?.user?.role)
-
-	// 		state.isLoggedIn = true,
-	// 		state.data= action?.payload?.user,
-	// 		state.role = action?.payload?.user?.role
-	// 	})
-	// 	.addCase(logout.fulfilled, (state) => {
-	// 		localStorage.clear();
-	// 		state.data={};
-	// 		state.isLoggedIn = false;
-	// 		state.role = ""
-	// 	})
-	// 	.addCase(getUserData.fulfilled, (state, action) => {
-	// 		localStorage.setItem("data", JSON.stringify(action?.payload?.user))
-	// 		localStorage.setItem('isLoggedIn', true)
-	// 		localStorage.setItem('role', action?.payload?.user?.role)
-
-	// 		state.isLoggedIn = true,
-	// 		state.data= action?.payload?.user,
-	// 		state.role = action?.payload?.user?.role
-	// 	})
-	// }
+	reducers:{},
+	extraReducers: (builder) => {
+		builder
+		.addCase(login.fulfilled, (state, action) => {
+			state.isLoggedIn = true,
+			state.data= action?.payload?.data?.user
+		})
+		.addCase(logout.fulfilled, (state) => {
+			state.data={};
+			state.isLoggedIn = false
+		})
+		.addCase(getUserData.fulfilled, (state, action) => {
+			console.log(action.payload);
+			state.isLoggedIn = true,
+			state.data= action?.payload?.data?.user
+		})
+	}
 })
 
-export const {setUser, removeUser} = authSlice.actions
 export default authSlice.reducer

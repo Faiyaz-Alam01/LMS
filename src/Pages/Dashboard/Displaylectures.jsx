@@ -10,7 +10,7 @@ const Displaylectures = () => {
 	const dispatch = useDispatch();
 	const {state} = useLocation();
 	const {lectures} = useSelector((state) => state.lecture)
-	const {role} = useSelector((state) => state?.user|| "")
+	const {role} = useSelector((state) => state?.auth?.user|| "")
 
 	const[currentVideo, setCurrentVideo] = useState(0);
 

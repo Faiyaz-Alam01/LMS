@@ -7,9 +7,9 @@ const CourseDescription = () => {
 
 	const navigate = useNavigate();
 	const { state } = useLocation()
-	const {user} = useSelector((state) => state.auth )
+	const {data} = useSelector((state) => state.auth )
 	
-	const role = user?.role
+	const role = data?.role
 		
 
 	useEffect(()=>{
@@ -41,7 +41,7 @@ const CourseDescription = () => {
 								{state?.instructor}
 							</p>
 						</div>
-						{role === 'ADMIN' || user?.subscription?.status === 'active' ? (
+						{role === 'ADMIN' || data?.subscription?.status === 'active' ? (
 								<button onClick={() => navigate('/course/displaylecture', {state: {...state}})} className='bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300'>
 									Watch lectures
 								</button>

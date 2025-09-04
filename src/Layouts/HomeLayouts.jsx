@@ -4,10 +4,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
-import axiosInstance from '../Helpers/axiosInstance';
-import { removeUser } from '../Redux/Slices/AuthSlice';
-import toast from 'react-hot-toast';
-// import { logout } from '../Redux/Slices/AuthSlice';
+import { logout } from '../Redux/Slices/AuthSlice';
 
 
 
@@ -16,9 +13,9 @@ const HomeLayouts = ({children}) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	 const {isLoggedIn, user} = useSelector((state) => state?.auth || {})
+	 const {isLoggedIn, data} = useSelector((state) => state?.auth || {})
 	 
-	 const role = user?.role
+	 const role = data?.role	 
 	 
 
 	function changeWidth (){
@@ -36,18 +33,9 @@ const HomeLayouts = ({children}) => {
 
 	async function handleLogout (e) {
 		e.preventDefault();
-
-		try {
-			const response = await axiosInstance.post('/user/logout')
-			const data = response.data;
-			if(data.success){
-				dispatch(removeUser());
-				navigate("/")
-				toast.success("Logout successfully")
-			}
-
-		} catch (error) {
-			toast.error(error?.response?.data?.message || "error in handle logout")
+		const res = await dispatch(logout())
+		if(res.payload?.success){
+			navigate('/')
 		}
 	}
 	return (

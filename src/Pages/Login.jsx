@@ -3,7 +3,7 @@ import HomeLayouts from '../Layouts/HomeLayouts'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
-import { setUser } from '../Redux/Slices/AuthSlice'
+import { login } from '../Redux/Slices/AuthSlice'
 import axiosInstance from '../Helpers/axiosInstance'
 
 const LogIn = () => {
@@ -45,31 +45,14 @@ const LogIn = () => {
 		}
 
 
-		try {
-			const res = await toast.promise( axiosInstance.post("/user/login",loginData),
-				{
-					loading: "Wait! loaging your account",
-					success: (res) => res.data?.message || "Login successful",
-					error: "Login failed",
-				}
-			)
-			
-			const data = res.data;		
-			
-			if(data.success){
-				
-				dispatch(setUser(data.data.user))
-				navigate('/')
-				setloginData({email:"",password:"",});
-			}
-
-
-		} catch (error) {
-  			toast.error(error.response?.data?.message || error.message || "Something went wrong");
+		const res = await dispatch(login(loginData))
+		if(res.payload?.success){
+			navigate('/')
 		}
+		
 
-	
-
+		
+		
 	}
 
 	return (

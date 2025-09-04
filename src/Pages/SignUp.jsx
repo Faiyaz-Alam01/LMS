@@ -4,13 +4,13 @@ import { BsPersonCircle } from 'react-icons/bs'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
-import axiosInstance from '../Helpers/axiosInstance'
-// import { createAccount } from '../Redux/Slices/AuthSlice'
+import { createAccount } from '../Redux/Slices/AuthSlice'
 
 const SignUp = () => {
 
 	const [previewImage, setPreviewImage] = useState("")
 	const navigate = useNavigate()  
+	const dispatch = useDispatch();
 
 	const [signupData, setSignUpData] = useState({
 		fullName:"",
@@ -79,28 +79,14 @@ const SignUp = () => {
 		formData.append("avatar", signupData.avatar)
 
 		//dispatch create account action
-		try {
-			
-			const res = await toast.promise( axiosInstance.post("/user/register",formData),
-				{
-					loading: "Wait! creating your account",
-					success: (res) => res.data?.message || "register successful",
-					error: "creating failed",
-				}
-			)
-			
-			const data = res.data;		
-			console.log(data);
-			
-			if(data.success){		
-				navigate('/login')
-				setSignUpData({fullName:"", email:"", password:"", avatar: ""});
-				setPreviewImage('')
-			}
-
-		} catch (error) {
-  			toast.error(error.response?.data?.message || error.message || "Something went wrong");
+		const res = await dispatch(createAccount(formData))	
+		
+		if (res.payload?.success) {
+			navigate("/login");
+			setSignUpData({ fullName: "", email: "", password: "", avatar: "" });
+			setPreviewImage("");
 		}
+
 
 	}
 

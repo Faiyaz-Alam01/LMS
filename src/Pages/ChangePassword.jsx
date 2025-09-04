@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
 import HomeLayouts from '../Layouts/HomeLayouts'
 import {  useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
-import { setUser } from '../Redux/Slices/AuthSlice'
-import axiosInstance from '../Helpers/axiosInstance'
+import {userChangePassword } from '../Redux/Slices/AuthSlice.js'
 import { FaArrowLeft } from "react-icons/fa";
 
 
 const ChangePassword = () => {
 
 	const navigate = useNavigate()  
-
+	const dispatch = useDispatch()
 
 	const [ChangePasswordData, setChangePasswordData] = useState({
 		email:"",
@@ -53,27 +52,10 @@ const ChangePassword = () => {
 			return;
 		}
 
-
-		try {
-			const res =await axiosInstance.post("/user/change-password", ChangePasswordData)
-			
-			const data = res.data;	
-				
-			if(data.success){
-				navigate('/')
-				toast.success("Password changed successfully")
-				setChangePasswordData({
-					email:"",
-					old_password:"",
-					new_password:"",
-					confirm_password: "",
-				});
-			}
-		} catch (error) {
-			const errMsg = error.response?.data?.message || "Something went wrong"
-  			toast.error(errMsg)
-		}
-
+		await dispatch(userChangePassword())
+		toast.success("Changed password successfully ")
+		navigate('/login')
+		
 	}
 
 	return (

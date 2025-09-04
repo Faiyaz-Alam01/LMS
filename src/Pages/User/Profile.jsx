@@ -6,38 +6,24 @@ import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../Helpers/axiosInstance';
 import { canclecourseBundle } from '../../Redux/Slices/RazorpaySlice';
 import toast from 'react-hot-toast';
+import { getUserData } from '../../Redux/Slices/AuthSlice';
 
 
 const Profile = () => {
 
 	const dispatch = useDispatch();
-	const navigae = useNavigate();
+	const navigate = useNavigate();
 
-  	const [users, setUsers] = useState([]);
-	const userData = users?.data
-
-	const fetchUsers = async () => {
-		try {
-			const res = await axiosInstance.get('/user/get-user')
-			const data = res.data;
-			if(data.success){
-				setUsers(data);
-			}
-
-		} catch (error) {
-			console.error("Error fetching users:", error);
-		}
-	}
-	useEffect(()=>{
-		fetchUsers();
-	},[])
+  	const {data} = useSelector((state)=> state.auth)
+	const userData = data
 
 	async function handleCancellation(){
-		toast('initiating cancellation ')
+		toast("Initiating cancellation...")
 		await dispatch(canclecourseBundle())
-		fetchUsers();
+		await fetchUsers();
 		toast.success("Cancellation completed")
-		navigae('/')
+		navigate('/')
+
 	}
 	return (
 		<HomeLayouts>

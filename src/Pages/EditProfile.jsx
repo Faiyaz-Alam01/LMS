@@ -1,13 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux'
-// import { getUserData, updateProfile } from '../Redux/Slices/AuthSlice';
+import { getUserData, updateProfile } from '../Redux/Slices/AuthSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import HomeLayouts from '../Layouts/HomeLayouts';
-import { AiFillAlipayCircle, AiOutlineArrowLeft } from 'react-icons/ai';
+import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { BsPersonCircle } from 'react-icons/bs';
-import axiosInstance from '../Helpers/axiosInstance';
-import { setUser } from '../Redux/Slices/AuthSlice';
 
 const EditProfile = () => {
 
@@ -65,22 +63,10 @@ const EditProfile = () => {
 		formData.append("fullName", data.fullName)
 		formData.append("avatar", data.avatar);
 
-		// await dispatch(updateProfile([data.userId, formData]))
-		// await dispatch(getUserData());
-		// navigate('/user/profile')
-
-		try {
-			const response = await axiosInstance.post('/user/update-profile', formData);
-			const data = response.data;
-
-			if(data.success){
-				dispatch(setUser(data));
-				toast.success("Updated successfully ")
-				navigate('/user/profile')
-			}
-		} catch (error) {
-			toast.error(error?.response?.data?.message)
-		}
+		await dispatch(updateProfile({userId: data.userId, formData}))
+		await dispatch(getUserData());
+		navigate('/user/profile')
+		
 	}
 	
 	return (

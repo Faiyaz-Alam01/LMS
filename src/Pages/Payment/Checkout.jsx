@@ -47,7 +47,6 @@ const Checkout = () => {
 
 				const res = await dispatch(verifyUserPayment(paymentdetails));
 				console.log(res);
-				
 				(res?.payload?.success) ? navigate("/checkout/success") : navigate("/checkout/fail")
 			}
 		}
