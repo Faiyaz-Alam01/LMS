@@ -17,7 +17,7 @@ export const getRazorPayId = createAsyncThunk("/razorpay/getid", async() => {
 		const response = await axiosInstance.get('/payments/razorpay-key');
 		return response.data;
 	} catch (error) {
-		toast.error("Failed to load data")
+		toast.error(error.response?.data?.message)
 	}
 })
 
@@ -26,7 +26,7 @@ export const purchageCourseBundle = createAsyncThunk("/purchageCourse", async() 
 		const response = await axiosInstance.post('/payments/subscribe');		
 		return response.data;
 	} catch (error) {
-		toast.error(error?.response?.data?.message || "error")
+		toast.error(error.response?.data?.message )
 	}
 })
 
@@ -66,16 +66,13 @@ export const canclecourseBundle = createAsyncThunk("/payments/cancel", async() =
 		toast.promise(response,{
 			loading:"Unsubscribing the bundle",
 			success: (res)=> {
-				return res.data?.message || "Unsubscribed successfully"
+				return res.data?.message || "Cancellation completed"
 			},
-			error: "Failed to Unsubscribe",
-		})
-				
+			error: "Failed to Unsubscribe"
+		});
 		return (await response).data;
 	} catch (error) {
-		console.log(error);
-		
-		toast.error(error?.response?.data?.message || "Failed unsubscribe")
+		toast.error(error.response?.data?.message)
 	}
 })
 
@@ -99,9 +96,7 @@ const razorpaySlice = createSlice({
 			toast.success(action?.payload?.message)
 			state.isPaymentVerified = action?.payload?.success;
 		})
-		.addCase(getPaymentRecord.fulfilled , (state, action) => {
-			console.log(action);
-			
+		.addCase(getPaymentRecord.fulfilled , (state, action) => {			
 			state.allPayments = action?.payload?.data?.allPayments;
 			state.monthlySaleRecord = action?.payload?.monthlySaleRecord;
 			state.finalMonths = action?.payload?.finalMonths

@@ -3,8 +3,8 @@ import HomeLayouts from '../Layouts/HomeLayouts'
 import {  useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
-import {userChangePassword } from '../Redux/Slices/AuthSlice.js'
 import { FaArrowLeft } from "react-icons/fa";
+import { userChangePassword } from '../Redux/Slices/AuthSlice'
 
 
 const ChangePassword = () => {
@@ -12,7 +12,7 @@ const ChangePassword = () => {
 	const navigate = useNavigate()  
 	const dispatch = useDispatch()
 
-	const [ChangePasswordData, setChangePasswordData] = useState({
+	const [changePasswordData, setChangePasswordData] = useState({
 		email:"",
 		old_password:"",
 		new_password:"",
@@ -23,7 +23,7 @@ const ChangePassword = () => {
 	function handleUserInput(e) {
 		const {name, value} =e.target;
 		setChangePasswordData({
-			...ChangePasswordData,
+			...changePasswordData,
 			[name]: value
 		}) 
 	}
@@ -31,30 +31,31 @@ const ChangePassword = () => {
 
 	async function onChangePassword(e) {
 		e.preventDefault();
-		if(!ChangePasswordData.email || !ChangePasswordData.old_password || !ChangePasswordData.new_password || !ChangePasswordData.confirm_password) {
+		if(!changePasswordData.email || !changePasswordData.old_password || !changePasswordData.new_password || !changePasswordData.confirm_password) {
 			toast.error("Please fill all the details");
 			return
 		}
 
 		//checking email
-		if(!ChangePasswordData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+		if(!changePasswordData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
 			toast.error("Invalid Email id")
 			return
 		}
 		//checking password
-		if(!ChangePasswordData.new_password.match(/^[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
+		if(!changePasswordData.new_password.match(/^[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
 			toast.error("Password should be 6-16 character long with atleast a number and special character")
 			return
 		}
 
-		if(ChangePasswordData.new_password !== ChangePasswordData.confirm_password) {
+		if(changePasswordData.new_password !== changePasswordData.confirm_password) {
 			toast.error("New Password and Confirm Password do not match");
 			return;
 		}
 
-		await dispatch(userChangePassword())
-		toast.success("Changed password successfully ")
-		navigate('/login')
+		const res = await dispatch(userChangePassword(changePasswordData))
+		if(res.payload?.success){
+			navigate('/login')	
+		}
 		
 	}
 
@@ -74,7 +75,7 @@ const ChangePassword = () => {
 							placeholder='Enter your email'
 							required
 							onChange={handleUserInput}
-							value={ChangePasswordData.email}
+							value={changePasswordData.email}
 						/>
 					</div>
 					
@@ -88,7 +89,7 @@ const ChangePassword = () => {
 							placeholder='Enter your old password'
 							required
 							onChange={handleUserInput}
-							value={ChangePasswordData.old_password}
+							value={changePasswordData.old_password}
 						/>
 					</div>
 
@@ -102,7 +103,7 @@ const ChangePassword = () => {
 							placeholder='Enter your new password'
 							required
 							onChange={handleUserInput}
-							value={ChangePasswordData.new_password}
+							value={changePasswordData.new_password}
 						/>
 					</div>
 
@@ -116,7 +117,7 @@ const ChangePassword = () => {
 							placeholder='Enter your confirm password'
 							required
 							onChange={handleUserInput}
-							value={ChangePasswordData.confirm_password}
+							value={changePasswordData.confirm_password}
 						/>
 					</div>
 

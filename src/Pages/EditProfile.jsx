@@ -63,9 +63,11 @@ const EditProfile = () => {
 		formData.append("fullName", data.fullName)
 		formData.append("avatar", data.avatar);
 
-		await dispatch(updateProfile({userId: data.userId, formData}))
+		const res = await dispatch(updateProfile({userId: data.userId, formData}))
 		await dispatch(getUserData());
-		navigate('/user/profile')
+		if(res.payload?.success){
+			navigate('/user/profile')
+		}
 		
 	}
 	

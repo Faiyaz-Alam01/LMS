@@ -29,8 +29,7 @@ export const createAccount = createAsyncThunk("/auth/signup", async(data) => {
 export const login = createAsyncThunk("/auth/login", async(data) => {
 	try {
 		const res = axiosInstance.post("user/login",data);
-		console.log(res);
-		
+				
 		toast.promise(res, {
 			loading: "Wait! authentication in process...",
 			success: (res) => {
@@ -39,8 +38,8 @@ export const login = createAsyncThunk("/auth/login", async(data) => {
 			error: "failed to login"
 		});
 		return (await res).data;
-	} catch (error) {
-		toast.error(error?.response?.data?.message || error.message);
+	} catch (error) {	
+		toast.error(error.response?.data?.message);
 	}
 })
 
@@ -86,13 +85,13 @@ export const getUserData = createAsyncThunk("/user/details", async() => {
 		const res = axiosInstance.get(`user/get-user`);
 		return (await res).data;
 	} catch (error) {
-		toast.error(error?.message)
+		toast.error(error.response?.data?.message)
 	}
 })
 
-export const userChangePassword = createAsyncThunk('/user/changePassword', async() => {
+export const userChangePassword = createAsyncThunk('/user/changePassword', async(data) => {
 	try {
-		const res = axiosInstance.post("/user/change-password", ChangePasswordData)
+		const res = axiosInstance.post("/user/change-password", data)
 		
 		toast.promise(res, {
 			loading: "Wait! authentication in process...",
@@ -103,8 +102,7 @@ export const userChangePassword = createAsyncThunk('/user/changePassword', async
 		});
 		return (await res).data;
 		} catch (error) {
-			const errMsg = error.response?.data?.message || "Something went wrong"
-  			toast.error(errMsg)
+  			toast.error(error.message || error.response?.data?.message)
 		}
 
 })
@@ -117,16 +115,15 @@ const authSlice = createSlice ({
 		builder
 		.addCase(login.fulfilled, (state, action) => {
 			state.isLoggedIn = true,
-			state.data= action?.payload?.data?.user
+			state.data= action?.payload?.data?.user		
 		})
 		.addCase(logout.fulfilled, (state) => {
 			state.data={};
 			state.isLoggedIn = false
 		})
 		.addCase(getUserData.fulfilled, (state, action) => {
-			console.log(action.payload);
 			state.isLoggedIn = true,
-			state.data= action?.payload?.data?.user
+			state.data= action?.payload?.data
 		})
 	}
 })

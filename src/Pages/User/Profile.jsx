@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import HomeLayouts from '../../Layouts/HomeLayouts';
 import { FaRegUserCircle } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
-import axiosInstance from '../../Helpers/axiosInstance';
 import { canclecourseBundle } from '../../Redux/Slices/RazorpaySlice';
 import toast from 'react-hot-toast';
 import { getUserData } from '../../Redux/Slices/AuthSlice';
@@ -19,10 +18,12 @@ const Profile = () => {
 
 	async function handleCancellation(){
 		toast("Initiating cancellation...")
-		await dispatch(canclecourseBundle())
-		await fetchUsers();
-		toast.success("Cancellation completed")
-		navigate('/')
+		const res = await dispatch(canclecourseBundle())
+
+		await dispatch(getUserData());
+		if(res.payload?.success){
+			navigate('/')
+		}
 
 	}
 	return (
