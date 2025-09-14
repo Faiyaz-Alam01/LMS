@@ -77,6 +77,57 @@ export const updateCourse = createAsyncThunk("/course/update", async(courseId,fo
 	}
 })
 
+export const getCourseLectures = createAsyncThunk('/course/lecture/get',async(cid) =>{  //course id
+	try {
+		const response = axiosInstance.get(`/course/${cid}`)
+		toast.promise(response, {
+			loading: "fatching course lecture",
+			success: "Lectures fetched successfully",
+			error:"failed to load the lectures"
+		});
+		return (await response).data;
+	} catch (error) {
+		toast.error(error?.response?.data?.message || "Lecture Not found")
+	}
+})
+
+export const addCourseLectures = createAsyncThunk('/course/lecture/add',async(data) =>{
+	try {
+		const formData = new FormData();
+		formData.append("lecture", data.lecture);
+		formData.append("title", data.title);
+		formData.append("description", data.description);
+		
+		const response = axiosInstance.post(`/course/addLecture/${data.id}`, formData)
+		toast.promise(response, {
+			loading: "adding course lecture",
+			success: "Lectures added successfully",
+			error:"failed to add the lectures"
+		});
+		const data = await response.data
+		console.log(data);
+		
+		return data
+	} catch (error) {
+		toast.error(error?.response?.data?.message)
+	}
+})
+
+export const deleteCourseLectures = createAsyncThunk('/course/lecture/delete',async(data) =>{
+	try {
+
+		const response = axiosInstance.delete(`/courses?courseId=${data.courseId}&lectureId=${data.lectureId}`);
+		toast.promise(response, {
+			loading: "deleting course lecture",
+			success: "Lectures deleted successfully",
+			error:"failed to delete the lectures"
+		});
+		return (await response).data;
+	} catch (error) {
+		toast.error(error?.response?.data?.message)
+	}
+})
+
 const courseSlice = createSlice({
 	name:"course",
 	initialState,
@@ -92,6 +143,15 @@ const courseSlice = createSlice({
 			})
 			.addCase(deleteCourse.fulfilled, (state, action) => {
 				state.courseData = [];
+			})
+
+			.addCase(getCourseLectures.fulfilled, (state, action) => {
+				console.log(action.payload);
+				state.lectures = action?.payload?.lectures;
+			})
+			.addCase(addCourseLectures.fulfilled, (state, action) =>{
+				console.log(action.payload);
+				state.lectures = action?.payload?.course?.lectures;
 			})
 	}
 

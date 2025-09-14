@@ -10,6 +10,7 @@ const Displaylectures = () => {
 	const dispatch = useDispatch();
 	const {state} = useLocation();
 	const {lectures} = useSelector((state) => state.lecture)
+	
 	console.log("lectures", lectures);
 	
 	const {role} = useSelector((state) => state?.auth?.data)
