@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom'
-import { addCourseLectures } from '../../Redux/Slices/LectureSlice';
+import { addCourseLectures } from '../../Redux/Slices/CourseSlice.js';
 import HomeLayouts from '../../Layouts/HomeLayouts';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 

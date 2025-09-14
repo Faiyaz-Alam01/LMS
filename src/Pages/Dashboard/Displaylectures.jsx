@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import HomeLayouts from '../../Layouts/HomeLayouts'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteCourseLectures, getCourseLectures } from '../../Redux/Slices/LectureSlice';
+import { deleteCourseLectures, getCourseLectures } from '../../Redux/Slices/CourseSlice.js';
 
 const Displaylectures = () => {
 
