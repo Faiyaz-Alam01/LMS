@@ -7,9 +7,9 @@ const initialState = {
 	lectures: []
 }
 
-export const getCourseLectures = createAsyncThunk('/course/lecture/get',async(cid) =>{
+export const getCourseLectures = createAsyncThunk('/course/lecture/get',async(cid) =>{  //course id
 	try {
-		const response = axiosInstance.get(`/courses/${cid}`)
+		const response = axiosInstance.get(`/course/${cid}`)
 		toast.promise(response, {
 			loading: "fatching course lecture",
 			success: "Lectures fetched successfully",
@@ -27,14 +27,17 @@ export const addCourseLectures = createAsyncThunk('/course/lecture/add',async(da
 		formData.append("lecture", data.lecture);
 		formData.append("title", data.title);
 		formData.append("description", data.description);
-
-		const response = axiosInstance.post(`/courses/${data.id}`, formData);
+		
+		const response = axiosInstance.post(`/course/addLecture/${data.id}`, formData)
 		toast.promise(response, {
 			loading: "adding course lecture",
 			success: "Lectures added successfully",
 			error:"failed to add the lectures"
 		});
-		return (await response).data;
+		const data = await response.data
+		console.log(data);
+		
+		return data
 	} catch (error) {
 		toast.error(error?.response?.data?.message)
 	}
@@ -66,6 +69,8 @@ const lectureSlice =createSlice({
 			state.lectures = action?.payload?.lectures;
 		})
 		.addCase(addCourseLectures.fulfilled, (state, action) =>{
+			console.log(action);
+			
 			state.lectures = action?.payload?.course?.lectures;
 		})
 	}

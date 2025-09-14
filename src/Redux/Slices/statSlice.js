@@ -31,7 +31,7 @@ const statSlice = createSlice({
 	reducer:{},
 	extraReducers: (builder) => {
 		builder.addCase(getStatsData.fulfilled, (state, action) => {
-			console.log(action);
+			// console.log(action);
 			state.allUserCount = action?.payload?.data?.allUserCount;
 			state.subscribedCount = action?.payload?.data?.subscribedCount
 		})

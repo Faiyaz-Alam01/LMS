@@ -10,22 +10,22 @@ const Displaylectures = () => {
 	const dispatch = useDispatch();
 	const {state} = useLocation();
 	const {lectures} = useSelector((state) => state.lecture)
-	const {role} = useSelector((state) => state?.auth?.user|| "")
+	console.log("lectures", lectures);
+	
+	const {role} = useSelector((state) => state?.auth?.data)
 
 	const[currentVideo, setCurrentVideo] = useState(0);
 
 	useEffect(()=>{
 		console.log(state);
+		
 		if(!state) navigate('/courses');
 		dispatch(getCourseLectures(state._id))
 		
 	}, [])
 
-	async function onLectureDelete(courseId, lectureId){
-		console.log(courseId, lectureId);
-		
+	async function onLectureDelete(courseId, lectureId){		
 		await dispatch(deleteCourseLectures(courseId, lectureId))
-
 		await dispatch(getCourseLectures(courseId))
 	}
 	
@@ -71,7 +71,7 @@ const Displaylectures = () => {
 							<li className='font-semibold text-xl text-yellow-500 flex justify-center items-center'>
 								<p>Lectures List</p>
 								{role === 'ADMIN' &&(
-									<button onClick={() => navigate('/course/addlecture', {state: {...state}})} className='btn-primary px-2 py-1  rounded-md font-semibold text-sm'>
+									<button onClick={() => navigate('/course/addlecture', {state})} className='btn-primary px-2 py-1  rounded-md font-semibold text-sm'>
 										Add new lecture
 									</button>
 								)}
@@ -101,7 +101,7 @@ const Displaylectures = () => {
 					</div>
 					):(
 					role && role === 'ADMIN' &&(
-						<button onClick={() => navigate('/course/addlecture', {state: {...state}})} className='btn-primary px-2 py-1  rounded-md font-semibold text-sm'>
+						<button onClick={() => navigate('/course/addlecture', {state: {...state}})} className='btn-primary px-4 py-2 font-bold bg-blue-500 hover:bg-blue-600 cursor-pointer rounded-md transition-all ease-in-out duration-200 text-sm'>
 							Add new lecture
 						</button>
 					)

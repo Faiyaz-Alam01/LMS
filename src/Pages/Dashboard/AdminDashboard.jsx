@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import HomeLayouts from '../../Layouts/HomeLayouts'
 import { Chart as ChartJs , ArcElement, Tooltip, Legend, CategoryScale, LinearScale, Title, BarElement} from 'chart.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { data, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { deleteCourse, getAllCourses } from '../../Redux/Slices/CourseSlice'
 import { getStatsData } from '../../Redux/Slices/statSlice'
 import { getPaymentRecord } from '../../Redux/Slices/RazorpaySlice'
 import { Bar, Pie } from 'react-chartjs-2'
-import {FaRegEdit, FaUsers} from 'react-icons/fa'
+import {FaEdit, FaRegEdit, FaUsers} from 'react-icons/fa'
 import { FcSalesPerformance } from "react-icons/fc";
 import {GiMoneyStack} from 'react-icons/gi'
 import { MdDelete } from "react-icons/md";
@@ -24,16 +24,20 @@ const AdminDashboard = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const { allUserCount, subscribedCount}= useSelector((state) => state?.stat)
+	const { allUserCount, subscribedCount}= useSelector((state) => state.stat)
 
-	const {allPayments, monthlySaleRecord} = useSelector((state) => state?.razorpay)
+	const {allPayments, monthlySaleRecord} = useSelector((state) => state.razorpay)
+	// console.log(allPayments);
+	// console.log(monthlySaleRecord);
+	
+	
 
 	const userdata = {
 		labels: ["Registered User", "Enrolled User"],
 		datasets: [
 			{
 				label: "User Details ",
-				data: [10, 40],
+				data: [10, 40], //allUserCount, subscribedCount
 				backgroundColor: ['yellow', "green"],
 				borderWidth:1,
 				borderColor: ["yellow", "green"]
@@ -111,6 +115,7 @@ const AdminDashboard = () => {
 						<div className='h-80 w-full relative'>
 							<Bar data={salesData} className='absolute bottom-0 h-80 w-full'/>
 						</div>
+
 						<div className='grid grid-cols-2 gap-5 '>
 							<div className='flex  items-center justify-between p-5 gap-5 rounded-md shadow-md '>
 								<div className='flex flex-col items-center'>
@@ -119,6 +124,7 @@ const AdminDashboard = () => {
 								</div>
 								<FcSalesPerformance className="text-yellow-500 text-5xl" />
 							</div>
+							
 							<div className='flex  items-center justify-between p-5 gap-5 rounded-md shadow-md '>
 								<div className='flex flex-col items-center'>
 									<p className='font-semibold'>Total Revenue</p>
@@ -154,10 +160,8 @@ const AdminDashboard = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{myCourses?.map((course, idx) => {
-								console.log(course);
-								
-								return (
+							{myCourses && myCourses.length > 0 ? (
+							  	myCourses?.map((course, idx) => (
 									<tr key={course?._id}>
 										<td>{idx+1}</td>
 										<td>{course.title}</td>
@@ -184,10 +188,18 @@ const AdminDashboard = () => {
 											>
 												<BsTrash/>
 											</button>
+											<button onClick={() => navigate('/course/edit', {state: {...course}})}
+												className='bg-white text-center hover:scale-110 transition-all text-black ease-in-out duration-200 px-3 text-xl py-1 rounded-md '
+											>
+												<FaEdit className=' cursor-pointer' />
+											</button>
 										</td>
 									</tr>
+								)))
+								: (
+									 <td colSpan="7" className="text-center text-xl font-semibold">No Courses Available</td>
 								)
-							})}
+							}
 						</tbody>
 					</table>
 				</div>

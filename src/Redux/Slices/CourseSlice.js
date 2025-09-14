@@ -27,9 +27,9 @@ export const createNewCourse = createAsyncThunk("/course/create", async(data) =>
 		formData.append("description", data?.description);
 		formData.append("category", data?.category);
 		formData.append("createdBy", data?.createdBy);
-		formData.append("thumbnail", data?.thumbnail);
+		formData.append("avatar", data?.avatar);
 
-		const res = axiosInstance.post("/course" , formData);
+		const res = axiosInstance.post("/course/create" , formData);
 
 		toast.promise(res, {
 			loading: "loading.. create course...",
@@ -58,6 +58,25 @@ export const deleteCourse = createAsyncThunk("/course/delete", async(id) => {
 	}
 }) 
 
+export const updateCourse = createAsyncThunk("/course/update", async(courseId,formData) => {
+	try {
+
+		const response = axiosInstance.put(`/course/update/${courseId}`, formData);
+		toast.promise(response, {
+			loading:"Updating course data",
+			success:(res) => {
+				return res.data?.message || "Course updated successfully"
+			},
+			error:"Failed to update the course"
+		})
+
+		const data = await response
+		return data;
+	} catch (error) {
+		toast.error(error?.response?.data?.message || "Failed to update course")	
+	}
+})
+
 const courseSlice = createSlice({
 	name:"course",
 	initialState,
@@ -70,6 +89,9 @@ const courseSlice = createSlice({
 				if(action.payload) {
 					state.courseData = [...action.payload];
 				}
+			})
+			.addCase(deleteCourse.fulfilled, (state, action) => {
+				state.courseData = [];
 			})
 	}
 

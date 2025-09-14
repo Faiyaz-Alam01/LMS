@@ -1,71 +1,80 @@
 import React, { useState } from 'react'
-import toast from 'react-hot-toast'
-import { useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import { createNewCourse } from '../../Redux/Slices/CourseSlice'
-import HomeLayouts from '../../Layouts/HomeLayouts'
-import { AiOutlineArrowLeft } from 'react-icons/ai'
+import { useDispatch } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { updateCourse } from '../../Redux/Slices/CourseSlice';
+import HomeLayouts from '../../Layouts/HomeLayouts';
+import { AiOutlineArrowLeft } from 'react-icons/ai';
+import toast from 'react-hot-toast';
+import { getUserData } from '../../Redux/Slices/AuthSlice';
 
-const CreateCourse = () => {
+const EditCourse = () => {
 
-	// const dispatch = useDispatch()
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
-
+	const {state} = useLocation();
+	console.log(state?._id);
+	
+	const courseId = state?._id
 	const [userInput, setUserInput] = useState({
-		title: "",
-		category: "",
-		createdBy: "",
-		description: "",
-		avatar:"",
-		previewImage: "",
-
+		title: state.title,
+		description:state.description,
+		category: state.category,
+		createdBy: state.createdBy,
+		avatar:state.avatar,
 	})
 
-	function handleImageUpload (e) {
+	function handleImageUpload(e){
 		e.preventDefault();
 		const uploadImage = e.target.files[0];
 		if(uploadImage){
 			const fileReader = new FileReader();
-			fileReader.readAsDataURL(uploadImage);
+			fileReader.readAsDataURL(uploadImage)
 			fileReader.addEventListener("load", function () {
 				setUserInput({
 					...userInput,
-					previewImage: this.result,
 					avatar: uploadImage,
 				})
 			})
 		}
+		
 	}
 
-	function handleUserInput(e) {
+	function handleUserInput (e) {
+		e.preventDefault();
 		const {name, value} = e.target;
 		setUserInput({
 			...userInput,
-			[name]:value
+			[name]: value
 		})
 	}
 
 	async function onFormSubmit(e) {
 		e.preventDefault();
-		if(!userInput.title || !userInput.category || !userInput.createdBy || !userInput.description || !userInput.avatar || !userInput.previewImage ){
+		if(!userInput.title || !userInput.description || !userInput.category || !userInput.createdBy || !userInput.avatar){
 			toast.error("All fields are required")
 			return 
 		}
 
-		const response = await dispatch(createNewCourse(userInput));
-		if(response.payload.success){
+		const formData = new FormData();
+		formData.append("title", userInput?.title);
+		formData.append("description", userInput?.description);
+		formData.append("category", userInput?.category);
+		formData.append("createdBy", userInput?.createdBy);
+		formData.append("avatar", userInput?.avatar);
+
+
+		const response = dispatch(updateCourse(courseId, formData));
+		await dispatch(getUserData());
+		if(response.success){
 			navigate('/courses');
 			setUserInput({
 				title: "",
+				description:"",
 				category: "",
 				createdBy: "",
-				description: "",
 				avatar:"",
-				previewImage: "",
 			})
 		}
-
 	}
 	return (
 		<HomeLayouts>
@@ -81,16 +90,16 @@ const CreateCourse = () => {
 					</Link>
 
 					<h1 className='text-center text-2xl font-bold'>
-						Create New Course
+						Edit Course
 					</h1>
 
 					<main className='grid grid-cols-2 gap-x-10'>
 						<div className='gap-y-6'>
 							<div>
 								<label htmlFor="image_uploads" className='cursor-pointer'>
-									{userInput.previewImage ? (
+									{state ? (
 										<img 
-											src={userInput.previewImage} 
+											src={userInput.avatar} 
 											className='w-full h-44 m-auto border'
 										/>
 									): (
@@ -184,7 +193,7 @@ const CreateCourse = () => {
 						type='submit'
 						className='w-full bg-yellow-600 hover:bg-yellow-500 py-1 rounded-sm text-lg font-semibold transition-all ease-in-out duration-200'
 					>
-						Create Course
+						Submit
 					</button>
 
 				</form>
@@ -193,4 +202,4 @@ const CreateCourse = () => {
 	)
 }
 
-export default CreateCourse
+export default EditCourse

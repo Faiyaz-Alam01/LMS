@@ -2,16 +2,21 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom'
-import axiosInstance from '../../Helpers/axiosInstance';
 import { addCourseLectures } from '../../Redux/Slices/LectureSlice';
 import HomeLayouts from '../../Layouts/HomeLayouts';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 
 const AddLecture = () => {
 
-	const courseDetails = useLocation().state;
+	const {state: courseDetails} = useLocation();	
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		if(!courseDetails){
+			navigate('/course')
+		}
+	},[courseDetails])
 
 	const[userInput, setUserInput] = useState({
 		id: courseDetails?._id,
@@ -39,31 +44,26 @@ const AddLecture = () => {
 		})
 	}
 
-	async function onFormSubmit() {
+	async function onFormSubmit(e) {
 		e.preventDefault();
 
 		if(!userInput.lecture || !userInput.title || !userInput.description){
 			toast.error("All fields are required")
 			return
 		}
-
-		//send data to server using api
+	
 		const response = await dispatch(addCourseLectures(userInput))
 
 		if(response?.payload?.success) {
 			navigate(-1)
 			setUserInput({
-				id: courseDetails._id,
+				id: courseDetails?._id,
 				lecture: undefined,
 				title: "",
 				description: "",
 				videoSrc: ""
 			})
 		}
-
-		useEffect(()=>{
-			if(!courseDetails) navigate('/courses')
-		},[])
 	}
 
 	return (
@@ -102,7 +102,7 @@ const AddLecture = () => {
 							<textarea 
 								type='text'
 								name="description" 
-								id="title"
+								id="description"
 								placeholder='enter the Description of lecture'
 								onChange={handleInputChange}
 								value={userInput.description}
@@ -115,7 +115,7 @@ const AddLecture = () => {
 								src={userInput?.videoSrc}
 								controls
 								disablePictureInPicture
-								// controlsList='nodownload'
+								controlsList='nodownload'
 								className='object-fill rounded-tl-lg rounded-tr-lg w-full'
 							>
 

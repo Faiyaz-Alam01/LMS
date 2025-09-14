@@ -24,6 +24,7 @@ import CheckoutSuccess from './Pages/Payment/CheckoutSuccess.jsx'
 import CheckoutFail from './Pages/Payment/CheckoutFail.jsx'
 import AddLecture from './Pages/Dashboard/AddLecture.jsx'
 import AdminDashboard from './Pages/Dashboard/AdminDashboard.jsx'
+import EditCourse from './Pages/Course/EditCourse.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -47,6 +48,7 @@ function App() {
           <Route path="/course/create" element={<CreateCourse />}/>
           <Route path="/course/addlecture" element={<AddLecture />}/>
           <Route path="/admin/dashboard" element={<AdminDashboard />}/>
+          <Route path="/course/edit" element={<EditCourse />}/>
         </Route>
 
         <Route element={<RequireAuth  allowRoles={["ADMIN","USER"]} />}>
