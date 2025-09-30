@@ -10,7 +10,7 @@ const Displaylectures = () => {
 	const dispatch = useDispatch();
 	const {state} = useLocation();
 	const lectures = state?.lectures
-	console.log("lectures", lectures);
+	// console.log("lectures", lectures);
 	
 	const {role} = useSelector((state) => state?.auth?.data)
 
@@ -18,11 +18,10 @@ const Displaylectures = () => {
 	
 
 	useEffect(()=>{
-		console.log(state);
+		// console.log(state);
 		if(!state) navigate('/courses');
-		dispatch(getCourseLectures(state._id))
-		
-	}, [])
+		dispatch(getCourseLectures(state?._id))
+	}, [state])
 
 	async function onLectureDelete(courseId, lectureId){		
 		await dispatch(deleteCourseLectures(courseId, lectureId))

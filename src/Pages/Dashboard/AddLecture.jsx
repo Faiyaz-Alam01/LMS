@@ -37,8 +37,6 @@ const AddLecture = () => {
 	function handleVideo(e) {
 		const video = e.target.files[0]
 		const source = window.URL.createObjectURL(video)
-		console.log(source);
-		
 		setUserInput({
 			...userInput,
 			lecture: video,
@@ -54,9 +52,9 @@ const AddLecture = () => {
 			return
 		}
 	
-		const response = await dispatch(addCourseLectures(userInput))
-		console.log(response);
-		if(response?.payload?.success) {
+		const res = await dispatch(addCourseLectures(userInput))
+		console.log(res);
+		if(res?.payload?.success) {
 			navigate(-1)
 			setUserInput({
 				id: courseDetails?._id,

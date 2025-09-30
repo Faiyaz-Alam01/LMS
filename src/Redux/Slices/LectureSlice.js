@@ -4,12 +4,10 @@ import axiosInstance from "../../Helpers/axiosInstance"
 import toast from "react-hot-toast"
 
 const initialState = {
-	lectures: []
+	lectures:[]
 }
 
 export const addCourseLectures = createAsyncThunk('/course/lecture/add',async(userData) =>{
-	console.log(userData);
-	
 	try {
 		const formData = new FormData();
 		formData.append("lecture", userData.lecture);
@@ -30,9 +28,9 @@ export const addCourseLectures = createAsyncThunk('/course/lecture/add',async(us
 	}
 })
 
-export const getCourseLectures = createAsyncThunk('/course/lecture/get',async(cid) =>{  //course id
+export const getCourseLectures = createAsyncThunk('/course/lecture/get',async(cid) =>{  //course id	
 	try {
-		const response = axiosInstance.get(`/course/${cid}`)
+		const response = axiosInstance.get(`/course/get-lectures/${cid}`)
 		toast.promise(response, {
 			loading: "fatching course lecture",
 			success: "Lectures fetched successfully",
@@ -41,6 +39,8 @@ export const getCourseLectures = createAsyncThunk('/course/lecture/get',async(ci
 		return (await response).data;
 	} catch (error) {
 		toast.error(error?.response?.data?.message || "Lecture Not found")
+		console.log(error);
+		
 	}
 })
 
@@ -71,8 +71,12 @@ const lectureSlice =createSlice({
 		.addCase(addCourseLectures.fulfilled,(state, action) => {
 			console.log(action);
 			state.lectures.push(action.payload?.lecture); 
-			
 		})
+		.addCase(getCourseLectures.fulfilled, (state, action) => {
+			console.log(getCourseLectures);
+			
+			state.lectures = action.payload.lectures;
+		});
 		
 	}
 })

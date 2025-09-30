@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
     course: courseSliceReducer,
     razorpay : razorpaySliceReducer,
     stat: statSliceReducer,
-    lecture: lectureSliceReducer
+    lectures: lectureSliceReducer
 })
 
 const persistConfig = {
