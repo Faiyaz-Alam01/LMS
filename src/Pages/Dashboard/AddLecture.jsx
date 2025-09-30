@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom'
-import { addCourseLectures } from '../../Redux/Slices/CourseSlice.js';
 import HomeLayouts from '../../Layouts/HomeLayouts';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { addCourseLectures } from '../../Redux/Slices/LectureSlice.js';
 
 const AddLecture = () => {
 
@@ -37,6 +37,8 @@ const AddLecture = () => {
 	function handleVideo(e) {
 		const video = e.target.files[0]
 		const source = window.URL.createObjectURL(video)
+		console.log(source);
+		
 		setUserInput({
 			...userInput,
 			lecture: video,
@@ -53,7 +55,7 @@ const AddLecture = () => {
 		}
 	
 		const response = await dispatch(addCourseLectures(userInput))
-
+		console.log(response);
 		if(response?.payload?.success) {
 			navigate(-1)
 			setUserInput({

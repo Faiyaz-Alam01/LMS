@@ -14,7 +14,7 @@ const Checkout = () => {
 	const razorpayKey = useSelector((state) => state?.razorpay?.key)
 	const subscription_id = useSelector((state) => state?.razorpay?.subscription_id)
 	const userData = useSelector((state) => state?.auth?.data);
-	console.log(userData);
+	// console.log(userData);
 	
 	const paymentdetails = {
 		razorpay_payment_id: "",
