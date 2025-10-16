@@ -89,18 +89,16 @@ const razorpaySlice = createSlice({
 			state.subscription_id = action?.payload?.subscription_id
 		})
 		.addCase(verifyUserPayment.fulfilled , (state, action) => {
-			toast.success(action?.payload?.message)
 			state.isPaymentVerified = action?.payload?.success;
 		})
 		.addCase(verifyUserPayment.rejected , (state, action) => {
-			toast.success(action?.payload?.message)
 			state.isPaymentVerified = action?.payload?.success;
 		})
 		.addCase(getPaymentRecord.fulfilled , (state, action) => {	
-			// console.log(action);
-					
-			state.allPayments = action?.payload?.data?.allPayments;
-			state.monthlySaleRecord = action?.payload?.monthlySaleRecord;
+			console.log(action);
+								
+			state.allPayments = action?.payload?.data?.allPayments || 10;
+			state.monthlySaleRecord = action?.payload?.monthlySaleRecord || [10,20,30,40,50,60,30,40,30,100,10,11];
 			state.finalMonths = action?.payload?.finalMonths
 		})
 

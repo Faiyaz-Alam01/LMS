@@ -10,7 +10,6 @@ const Displaylectures = () => {
 	const dispatch = useDispatch();
 	const {state} = useLocation();
 	const lectures = state?.lectures
-	// console.log("lectures", lectures);
 	
 	const {role} = useSelector((state) => state?.auth?.data)
 
@@ -18,14 +17,15 @@ const Displaylectures = () => {
 	
 
 	useEffect(()=>{
-		// console.log(state);
 		if(!state) navigate('/courses');
 		dispatch(getCourseLectures(state?._id))
-	}, [state])
+	}, [state, dispatch])
 
-	async function onLectureDelete(courseId, lectureId){		
-		await dispatch(deleteCourseLectures(courseId, lectureId))
-		await dispatch(getCourseLectures(courseId))
+	async function onLectureDelete(courseId, lectureId){	
+		const res = await dispatch(deleteCourseLectures({courseId, lectureId}))
+		if(res.payload?.success){
+			await dispatch(getCourseLectures(courseId))
+		}
 	}
 	
 	return (

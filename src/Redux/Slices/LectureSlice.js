@@ -14,14 +14,13 @@ export const addCourseLectures = createAsyncThunk('/course/lecture/add',async(us
 		formData.append("title", userData.title);
 		formData.append("description", userData.description);
 		
-		const promise = axiosInstance.post(`/course/addLecture/${userData.id}`, formData)
-		toast.promise(promise, {
+		const response = axiosInstance.post(`/course/addLecture/${userData.id}`, formData)
+		toast.promise(response, {
 			loading: "adding course lecture",
 			success: "Lectures added successfully",
 			error:"failed to add the lectures"
 		});
-		let response = await promise;
-		return response.data;
+		return (await response).data;
 	} catch (error) {
 		console.log(error);
 		toast.error(error?.response?.data?.message || "failed add lecture")
@@ -46,8 +45,10 @@ export const getCourseLectures = createAsyncThunk('/course/lecture/get',async(ci
 
 
 export const deleteCourseLectures = createAsyncThunk('/course/lecture/delete',async(data) =>{
+	console.log(data);
+	
 	try {
-		const response = axiosInstance.delete(`/courses/${data.courseId}/${data.lectureId}`);
+		const response = axiosInstance.delete(`/course/deleteLecture/${data.courseId}/${data.lectureId}`);
 		toast.promise(response, {
 			loading: "deleting course lecture",
 			success: "Lectures deleted successfully",
@@ -70,12 +71,12 @@ const lectureSlice =createSlice({
 		builder
 		.addCase(addCourseLectures.fulfilled,(state, action) => {
 			console.log(action);
-			state.lectures.push(action.payload?.lecture); 
+			state.lectures=action.payload?.message.lectures; 
 		})
 		.addCase(getCourseLectures.fulfilled, (state, action) => {
-			console.log(getCourseLectures);
+			console.log(action.payload);
 			
-			state.lectures = action.payload.lectures;
+			state.lectures = action.payload;
 		});
 		
 	}

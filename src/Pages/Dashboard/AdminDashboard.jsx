@@ -26,9 +26,7 @@ const AdminDashboard = () => {
 
 	const { allUserCount, subscribedCount}= useSelector((state) => state.stat)
 
-	const {allPayments, monthlySaleRecord} = useSelector((state) => state.razorpay)
-	// console.log(allPayments);
-	// console.log(monthlySaleRecord);
+	// const {allPayments, monthlySaleRecord} = useSelector((state) => state.razorpay)
 	
 	
 
@@ -37,7 +35,7 @@ const AdminDashboard = () => {
 		datasets: [
 			{
 				label: "User Details ",
-				data: [10, 40], //allUserCount, subscribedCount
+				data: [10, 40], 
 				backgroundColor: ['yellow', "green"],
 				borderWidth:1,
 				borderColor: ["yellow", "green"]
@@ -46,12 +44,12 @@ const AdminDashboard = () => {
 	}
 
 	const  salesData = {
-		labels: ["Jan", "Feb", "Mer", "Apr","May","jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+		labels: ["Jan", "Feb", "Mar", "Apr","May","Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 		fontColor: "white",
 		datasets: [
 			{
 				label: "Sales / Month",
-				data: monthlySaleRecord,
+				data:[10,20,30,40,50,60,70,80,90,100,110,120],
 				backgroundColor:['rgb(255,99,132)'],
 				borderColor: ["white"],
 				borderWidth: 2
@@ -64,6 +62,7 @@ const AdminDashboard = () => {
 	async function onCourseDelete (id) {
 		if(window.confirm("Are you sure you want to delete the course ? ")) {
 			const res = await dispatch(deleteCourse(id));
+			console.log(res);
 			if(res?.payload?.success){
 				await dispatch(getAllCourses());
 			}
@@ -75,7 +74,7 @@ const AdminDashboard = () => {
 			async () => {
 				await dispatch(getAllCourses())
 				await dispatch(getStatsData())
-				await dispatch(getPaymentRecord())
+				// await dispatch(getPaymentRecord())
 			}
 		)()
 	},[])
@@ -120,7 +119,7 @@ const AdminDashboard = () => {
 							<div className='flex  items-center justify-between p-5 gap-5 rounded-md shadow-md '>
 								<div className='flex flex-col items-center'>
 									<p className='font-semibold'>Subscription Count</p>
-									<h3 className='text-4xl font-bold'>{allPayments?.count || 20}</h3>
+									<h3 className='text-4xl font-bold'>{20}</h3>
 								</div>
 								<FcSalesPerformance className="text-yellow-500 text-5xl" />
 							</div>
@@ -128,14 +127,14 @@ const AdminDashboard = () => {
 							<div className='flex  items-center justify-between p-5 gap-5 rounded-md shadow-md '>
 								<div className='flex flex-col items-center'>
 									<p className='font-semibold'>Total Revenue</p>
-									<h3 className='text-4xl font-bold'>{allPayments?.count*499 || 20*499}</h3>
+									<h3 className='text-4xl font-bold'>{subscribedCount*499}</h3> 
 								</div>
 								<GiMoneyStack className="text-green-500 text-5xl" />
 							</div>
 						</div>
 					</div>
 				</div>
-					{/* perform crud operation */}
+
 				<div className='mx-[10%] w-[80%] self-center flex flex-col items-center justify-center gap-10 mb-10'>
 					<div className='flex w-full items-center justify-between '>
 						<h1 className='text-center text-3xl font-semibold'>
