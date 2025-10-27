@@ -1,6 +1,5 @@
 import toast from "react-hot-toast"
 import axiosInstance from "../../Helpers/axiosInstance"
-import { data } from "react-router-dom"
 import { createSlice, createAsyncThunk }  from "@reduxjs/toolkit"
 
 const initialState = {
@@ -8,8 +7,7 @@ const initialState = {
 	subscription_id:"",
 	isPaymentVerified : false,
 	allPayments:{},
-	monthlySaleRecord:{},
-	finalMonths:{},
+	monthlySaleRecord:[],
 }
 
 export const getRazorPayId = createAsyncThunk("/razorpay/getid", async() => {
@@ -95,11 +93,9 @@ const razorpaySlice = createSlice({
 			state.isPaymentVerified = action?.payload?.success;
 		})
 		.addCase(getPaymentRecord.fulfilled , (state, action) => {	
-			console.log(action);
-								
-			state.allPayments = action?.payload?.data?.allPayments || 10;
-			state.monthlySaleRecord = action?.payload?.monthlySaleRecord || [10,20,30,40,50,60,30,40,30,100,10,11];
-			state.finalMonths = action?.payload?.finalMonths
+			console.log( action?.payload);
+			state.allPayments = action?.payload?.data?.allPayments
+			state.monthlySaleRecord = action?.payload?.data?.monthlySalesRecord
 		})
 
 	}

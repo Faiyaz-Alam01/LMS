@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { deleteCourse, getAllCourses } from '../../Redux/Slices/CourseSlice'
 import { getStatsData } from '../../Redux/Slices/statSlice'
-import { getPaymentRecord } from '../../Redux/Slices/RazorpaySlice'
+import { getPaymentRecord } from '../../Redux/Slices/RazorpaySlice.js'
 import { Bar, Pie } from 'react-chartjs-2'
-import {FaEdit, FaRegEdit, FaUsers} from 'react-icons/fa'
+import {FaEdit, FaUsers} from 'react-icons/fa'
 import { FcSalesPerformance } from "react-icons/fc";
 import {GiMoneyStack} from 'react-icons/gi'
 import { MdDelete } from "react-icons/md";
@@ -26,7 +26,7 @@ const AdminDashboard = () => {
 
 	const { allUserCount, subscribedCount}= useSelector((state) => state.stat)
 
-	// const {allPayments, monthlySaleRecord} = useSelector((state) => state.razorpay)
+	const {allPayments, monthlySaleRecord} = useSelector((state) => state.razorpay)	
 	
 	
 
@@ -35,7 +35,7 @@ const AdminDashboard = () => {
 		datasets: [
 			{
 				label: "User Details ",
-				data: [10, 40], 
+				data: [allUserCount, subscribedCount], 
 				backgroundColor: ['yellow', "green"],
 				borderWidth:1,
 				borderColor: ["yellow", "green"]
@@ -49,7 +49,7 @@ const AdminDashboard = () => {
 		datasets: [
 			{
 				label: "Sales / Month",
-				data:[10,20,30,40,50,60,70,80,90,100,110,120],
+				data: monthlySaleRecord,
 				backgroundColor:['rgb(255,99,132)'],
 				borderColor: ["white"],
 				borderWidth: 2
@@ -74,7 +74,7 @@ const AdminDashboard = () => {
 			async () => {
 				await dispatch(getAllCourses())
 				await dispatch(getStatsData())
-				// await dispatch(getPaymentRecord())
+				await dispatch(getPaymentRecord())
 			}
 		)()
 	},[])
@@ -119,7 +119,7 @@ const AdminDashboard = () => {
 							<div className='flex  items-center justify-between p-5 gap-5 rounded-md shadow-md '>
 								<div className='flex flex-col items-center'>
 									<p className='font-semibold'>Subscription Count</p>
-									<h3 className='text-4xl font-bold'>{20}</h3>
+									<h3 className='text-4xl font-bold'>{allPayments?.count}</h3>
 								</div>
 								<FcSalesPerformance className="text-yellow-500 text-5xl" />
 							</div>
@@ -127,7 +127,7 @@ const AdminDashboard = () => {
 							<div className='flex  items-center justify-between p-5 gap-5 rounded-md shadow-md '>
 								<div className='flex flex-col items-center'>
 									<p className='font-semibold'>Total Revenue</p>
-									<h3 className='text-4xl font-bold'>{subscribedCount*499}</h3> 
+									<h3 className='text-4xl font-bold'>{allPayments?.count * 499}</h3> 
 								</div>
 								<GiMoneyStack className="text-green-500 text-5xl" />
 							</div>
@@ -148,7 +148,7 @@ const AdminDashboard = () => {
 					{/* create table and show data in the table */}
 					<table className='table overflow-x-scroll '>
 						<thead>
-							<tr>
+							<tr className='text-white'>
 								<th>S No</th>
 								<th>Course Title</th>
 								<th>Course Category</th>
