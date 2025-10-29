@@ -54,8 +54,8 @@ const AddLecture = () => {
 	
 		const response = await dispatch(addCourseLectures(userInput))
 		console.log(response);
-		if(response?.payload.success) {
-			// navigate(-1)
+		if(response?.payload?.success) {
+			navigate(-1);
 			setUserInput({
 				id: courseDetails?._id,
 				lecture: undefined,

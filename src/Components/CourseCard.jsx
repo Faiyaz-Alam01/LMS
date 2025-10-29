@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 const CourseCard = ({props}) => {	
 	const navigate = useNavigate();	
 	// const {course} = useSelector(state => state.course)
+	console.log(props);
+	
 
 	return (
 		<div 
@@ -30,7 +32,7 @@ const CourseCard = ({props}) => {
 					</p>
 					<p className='font-semibold'>
 						<span className='text-yello-500 font-bold'>Total lectures : </span>
-						{props?.numberoflectures}
+						{props?.numberOfLectures}
 					</p>
 					<p className='font-semibold'>
 						<span className='text-yello-500 font-bold'>Instructor : </span>

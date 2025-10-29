@@ -3,15 +3,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllCourses } from '../../Redux/Slices/CourseSlice';
 import HomeLayouts from '../../Layouts/HomeLayouts';
 import CourseCard from '../../Components/CourseCard';
-import axiosInstance from '../../Helpers/axiosInstance';
-import toast from 'react-hot-toast';
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { Navigate, useNavigate } from 'react-router-dom';
+import BackArrow from '../../Components/BackArrow';
+
 
 const CourseList = () => {
 
 	const dispatch = useDispatch();
 	
 	const {courseData} = useSelector((state) => state.course)
-	// console.log(courseData);
+	console.log(courseData);
 	
 
 	// async function loadCourses (){
@@ -34,7 +36,8 @@ const CourseList = () => {
 	},[dispatch])
 
 	return (
-		<HomeLayouts>
+		<HomeLayouts className='relative'>
+			<BackArrow props={'/'}/>
 			<div className='min-h-[90vh] pt-12 pl-20 text-white'>
 				<h1 className='text-center text-3xl font-semibold m-5' >
 					Explore the courses made by 
@@ -53,7 +56,6 @@ const CourseList = () => {
 					<p className='text-center text-white'>No courses available</p>
 				)}
 
-				
 			</div>
 		</HomeLayouts>
 	)

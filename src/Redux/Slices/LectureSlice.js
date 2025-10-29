@@ -70,13 +70,13 @@ const lectureSlice =createSlice({
 	extraReducers:(builder) =>{
 		builder
 		.addCase(addCourseLectures.fulfilled,(state, action) => {
-			console.log(action);
+			// console.log(action);
 			state.lectures=action.payload?.message.lectures; 
 		})
 		.addCase(getCourseLectures.fulfilled, (state, action) => {
-			console.log(action.payload);
+			// console.log(action.payload.data.lectures);
 			
-			state.lectures = action.payload;
+			state.lectures = action?.payload?.data?.lectures;
 		});
 		
 	}

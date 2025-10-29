@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import HomeLayouts from '../../Layouts/HomeLayouts'
 import { useSelector } from 'react-redux'
+import BackArrow from '../../Components/BackArrow'
 
 const CourseDescription = () => {
 
@@ -13,12 +14,13 @@ const CourseDescription = () => {
 		
 
 	useEffect(()=>{
-		// console.log(state);
+		console.log(state);
 	},[])
 	
 
 	return (
 		<HomeLayouts>
+			<BackArrow props = {-1}/>
 			<div className='min-h-screen pt-12 flex px-20 items-center justify-center text-white'>
 				<div className='flex flex-row p-4 bg-red-400 gap-10 py-10 relative'>
 					<div className='space-y-5 '>
@@ -30,15 +32,14 @@ const CourseDescription = () => {
 						<div className='text-2xl'>
 							<p className='font-semibold'>
 								<span className='text-yellow-500 font-bold'>
-									Total lectures : 6
+									Total lectures : {state?.numberOfLectures || 0}
 								</span>
-								{/* {"state?.numberoflectures"} */}
+								{/* {""} */}
 							</p>
 							<p className='font-semibold'>
 								<span className='text-yellow-500 font-bold'>
-									Instructor : 
+									Instructor : {state?.createdBy}
 								</span>
-								{state?.instructor}
 							</p>
 						</div>
 						{role === 'ADMIN' || data?.subscription?.status === 'active' ? (

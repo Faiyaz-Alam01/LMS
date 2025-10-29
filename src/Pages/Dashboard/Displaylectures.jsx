@@ -3,23 +3,27 @@ import HomeLayouts from '../../Layouts/HomeLayouts'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteCourseLectures, getCourseLectures } from '../../Redux/Slices/LectureSlice.js';
+import BackArrow from '../../Components/BackArrow.jsx';
 
 const Displaylectures = () => {
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const {state} = useLocation();
-	const lectures = state?.lectures
-	
+	const {lectures} = useSelector((state) => state?.lectures); 	
 	const {role} = useSelector((state) => state?.auth?.data)
-
+	
 	const[currentVideo, setCurrentVideo] = useState(0);
+	
+	console.log("lectures", lectures);
 	
 
 	useEffect(()=>{
+		console.log("state", state);
+		
 		if(!state) navigate('/courses');
 		dispatch(getCourseLectures(state?._id))
-	}, [state, dispatch])
+	}, [])
 
 	async function onLectureDelete(courseId, lectureId){	
 		const res = await dispatch(deleteCourseLectures({courseId, lectureId}))
@@ -30,6 +34,7 @@ const Displaylectures = () => {
 	
 	return (
 		<HomeLayouts>
+			<BackArrow props={-1}/>
 			<div className='flex justify-center items-center min-h-screen gap-10 flex-col py-10 text-2xl'>
 				<div className='text-center text-2xl  font-semibold text-yellow-500 '>
 					Course Name: {state?.title}
@@ -60,7 +65,7 @@ const Displaylectures = () => {
 										Description: {" "}
 									</span>
 									{lectures && lectures[currentVideo]?.description}
-									Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, sunt?
+								
 								</p>
 							</div>
 						</div>
