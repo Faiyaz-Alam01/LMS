@@ -31,7 +31,7 @@ const EditProfile = () => {
 				setData({
 					...data,
 					previewImage: this.result,
-					avatar: uploadImage
+					avatar: uploadImage // backend
 				});
 			})
 		}
